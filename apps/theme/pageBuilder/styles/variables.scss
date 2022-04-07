@@ -4,7 +4,7 @@ $webiny-pb-theme-typography-primary-font-family: "IBM Plex Sans, sans-serif" !de
 $webiny-pb-theme-typography-secondary-font-family: "Lato, sans-serif" !default;
 
 // colors
-$webiny-pb-theme-primary: #fa5723 !default;
+$webiny-pb-theme-primary: #0a7fff !default;
 $webiny-pb-theme-secondary: #00ccb0 !default;
 $webiny-pb-theme-background: #eaecec !default;
 $webiny-pb-theme-surface: #ffffff !default;
@@ -26,7 +26,7 @@ $webiny-pb-theme-tablet-width: 768px;
 $webiny-pb-theme-desktop-width: 1200px;
 
 // elements
-$webiny-pb-theme-border-radius: 2px;
+$webiny-pb-theme-border-radius: 0px;
 
 body {
   --webiny-theme-typography-primary-font-family: #{$webiny-pb-theme-typography-primary-font-family};

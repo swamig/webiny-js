@@ -59,7 +59,8 @@ export default () => {
             IMPORT_PAGES_CREATE_HANDLER: pageBuilder.functions.importPages.create.arn,
             EXPORT_PAGES_PROCESS_HANDLER: pageBuilder.functions.exportPages.process.arn,
             DEBUG,
-            WEBINY_LOGS_FORWARD_URL
+            WEBINY_LOGS_FORWARD_URL,
+            WCP_TELEMETRY_CLIENT_SEND_LOGS_MAX_COUNT: 1, // Send data to WCP on every request.
         },
         primaryDynamodbTable: dynamoDb.table,
         bucket: fileManager.bucket,
@@ -74,7 +75,8 @@ export default () => {
             S3_BUCKET: fileManager.bucket.id,
             OKTA_ISSUER: process.env.OKTA_ISSUER,
             DEBUG,
-            WEBINY_LOGS_FORWARD_URL
+            WEBINY_LOGS_FORWARD_URL,
+            WCP_TELEMETRY_CLIENT_SEND_LOGS_MAX_COUNT: 1, // Send data to WCP on every request.
         },
         primaryDynamodbTable: dynamoDb.table
     });

@@ -1,4 +1,5 @@
 import StaticLayout from "./layouts/Static";
+import EmptyLayout from "./layouts/Empty";
 
 import { PbPageLayoutPlugin, PbThemePlugin } from "@webiny/app-page-builder/types";
 
@@ -53,6 +54,15 @@ export default [
             name: "static",
             title: "Static page",
             component: StaticLayout
+        }
+    } as PbPageLayoutPlugin,
+    {
+        name: "pb-page-layout-empty",
+        type: "pb-page-layout",
+        layout: {
+            name: "empty",
+            title: "Empty page",
+            component: EmptyLayout
         }
     } as PbPageLayoutPlugin
 ];

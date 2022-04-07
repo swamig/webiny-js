@@ -1,4 +1,5 @@
 import DefaultFormLayout from "./layouts/DefaultFormLayout";
+import NetafimFormLayout from "./layouts/NetafimFormLayout";
 
 export default [
     {
@@ -8,6 +9,15 @@ export default [
             name: "default",
             title: "Default layout",
             component: DefaultFormLayout
+        }
+    },
+    {
+        name: "form-layout-ntfm",
+        type: "form-layout",
+        layout: {
+            name: "default",
+            title: "Netafim layout",
+            component: NetafimFormLayout
         }
     }
 ];
