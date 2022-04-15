@@ -15,7 +15,7 @@ export default [
         name: "form-layout-ntfm",
         type: "form-layout",
         layout: {
-            name: "default",
+            name: "netafim",
             title: "Netafim layout",
             component: NetafimFormLayout
         }

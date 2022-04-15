@@ -1,15 +1,16 @@
 import * as React from "react";
 import { FbFormModelField } from "@webiny/app-form-builder/types";
 import { BindComponentRenderProp } from "@webiny/form";
-import HelperMessage from "../components/HelperMessage";
+import { HelperMessage } from "../HelperMessage";
 
 interface InputProps {
     type?: string;
     bind: BindComponentRenderProp;
     field: FbFormModelField;
+    fieldIndex: number;
 }
 
-const Input: React.FC<InputProps> = props => {
+export const Input: React.FC<InputProps> = props => {
     const { onChange, value, validation, validate } = props.bind;
 
     const onBlur = (ev: React.SyntheticEvent) => {
@@ -23,8 +24,11 @@ const Input: React.FC<InputProps> = props => {
 
     return (
         <div className="webiny-fb-form-field webiny-fb-form-field--input">
-            <label className="z">
-                {props.field.label}
+            <label className="webiny-pb-typography-body webiny-fb-form-field__label">
+                <div className={"field-index-label"}>
+                    <div className={"field-index"}>{props.fieldIndex + 1}</div>
+                    {props.field.label}
+                </div>
             </label>
             <input
                 onBlur={onBlur}
@@ -45,4 +49,3 @@ const Input: React.FC<InputProps> = props => {
     );
 };
 
-export default Input;

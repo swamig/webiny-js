@@ -1,0 +1,23 @@
+import * as React from "react";
+
+interface HelperMessageProps {
+    helperMessage?: React.ReactNode;
+    errorMessage: React.ReactNode;
+    isValid: boolean;
+}
+
+/**
+ * A component that is used to show helper (description) and validation error messages.
+ */
+export const HelperMessage: React.FC<HelperMessageProps> = props => {
+    return (
+        <div
+            className={
+                "webiny-fb-form-field__helper-text" +
+                (props.isValid === false ? " webiny-fb-form-field__helper-text--error" : "")
+            }
+        >
+            {props.isValid === false ? props.errorMessage : props.helperMessage}
+        </div>
+    );
+};
