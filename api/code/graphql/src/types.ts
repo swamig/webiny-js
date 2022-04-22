@@ -9,6 +9,7 @@ import { PbContext } from "@webiny/api-page-builder/graphql/types";
 import { PrerenderingServiceClientContext } from "@webiny/api-prerendering-service/client/types";
 import { FileManagerContext } from "@webiny/api-file-manager/types";
 import { FormBuilderContext } from "@webiny/api-form-builder/types";
+import { CmsContext } from "@webiny/api-headless-cms/types";
 
 // When working with the `context` object (for example while defining a new GraphQL resolver function),
 // you can import this interface and assign it to it. This will give you full autocomplete functionality
@@ -25,6 +26,7 @@ export interface Context
         I18NContext,
         I18NContentContext,
         PbContext,
+        CmsContext,
         PrerenderingServiceClientContext,
         FileManagerContext,
         FormBuilderContext {}
