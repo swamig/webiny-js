@@ -7,6 +7,13 @@ module.exports = () => [
         type: "hook-before-deploy",
         name: "hook-before-deploy-environment-api-key",
         async hook(args, context) {
+            // If the project isn't activated, do nothing.
+            if (!context.project.config.id) {
+                return;
+            }
+
+            process.env.WCP_PROJECT_ID = context.project.config.id;
+
             // If the `WCP_ENVIRONMENT_API_KEY` has already been assigned, no need to do anything.
             if (process.env.WCP_ENVIRONMENT_API_KEY) {
                 return;
@@ -33,7 +40,7 @@ module.exports = () => [
 ];
 
 const getProjectEnvironment = async (args, context) => {
-    // If the project isn't activated, also do nothing.
+    // If the project isn't activated, do nothing.
     if (!context.project.config.id) {
         return;
     }
