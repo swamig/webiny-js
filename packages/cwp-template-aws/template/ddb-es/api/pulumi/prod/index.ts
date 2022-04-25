@@ -22,6 +22,10 @@ const WEBINY_LOGS_FORWARD_URL = String(process.env.WEBINY_LOGS_FORWARD_URL);
 // https://www.pulumi.com/docs/intro/concepts/resources/#protect
 const protectedEnvironment = process.env.WEBINY_ENV === "prod";
 
+// Enables Webiny Control Panel features.
+const WCP_PROJECT_ID = String(process.env.WCP_PROJECT_ID);
+const WCP_PROJECT_ENVIRONMENT_API_KEY = String(process.env.WCP_PROJECT_ENVIRONMENT_API_KEY);
+
 export default () => {
     const dynamoDb = new DynamoDB({ protectedEnvironment });
     const cognito = new Cognito({ protectedEnvironment });
@@ -83,7 +87,9 @@ export default () => {
             EXPORT_PAGES_PROCESS_HANDLER: pageBuilder.functions.exportPages.process.arn,
             S3_BUCKET: fileManager.bucket.id,
             DEBUG,
-            WEBINY_LOGS_FORWARD_URL
+            WEBINY_LOGS_FORWARD_URL,
+            WCP_PROJECT_ID,
+            WCP_PROJECT_ENVIRONMENT_API_KEY
         },
         primaryDynamodbTable: dynamoDb.table,
         elasticsearchDynamodbTable: elasticsearch.table,
@@ -106,7 +112,9 @@ export default () => {
 
             S3_BUCKET: fileManager.bucket.id,
             DEBUG,
-            WEBINY_LOGS_FORWARD_URL
+            WEBINY_LOGS_FORWARD_URL,
+            WCP_PROJECT_ID,
+            WCP_PROJECT_ENVIRONMENT_API_KEY
         },
         primaryDynamodbTable: dynamoDb.table,
         elasticsearchDynamodbTable: elasticsearch.table,
