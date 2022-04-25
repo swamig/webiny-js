@@ -5,5 +5,14 @@ export interface WcpContext extends Context {
 }
 
 export interface Wcp {
-    projectInitialized: boolean
+    isProject: () => boolean;
+    getProjectLicense: () => DecryptedWcpProjectLicense | null;
+}
+
+export type EncryptedWcpProjectLicense = string;
+
+export interface DecryptedWcpProjectLicense {
+    id: string;
+    orgId: string;
+    package: any;
 }

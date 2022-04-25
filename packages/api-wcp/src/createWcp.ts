@@ -1,7 +1,15 @@
 import { Wcp } from "~/types";
+import { getWcpProjectLicense } from "~/utils";
 
-export const createWcp = (): Wcp => {
+export const createWcp = async (): Promise<Wcp> => {
+    const projectLicense = await getWcpProjectLicense();
+
     return {
-        projectInitialized: true
+        isProject: () => {
+            return Boolean(projectLicense);
+        },
+        getProjectLicense: () => {
+            return projectLicense;
+        }
     };
 };
