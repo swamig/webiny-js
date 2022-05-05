@@ -8,18 +8,13 @@ module.exports = async (inputs, context) => {
     await loadEnvVariables(inputs, context);
 
     const cwd = process.cwd();
-    console.log('OUTPUT:::cwd', cwd)
-
     // Get project application metadata.
     const projectApplication = getProjectApplication({
         cwd: path.join(cwd, inputs.folder)
     });
 
-    console.log('OUTPUT:::pa', projectApplication)
-
     // Will also install Pulumi, if not already installed.
-    const reza = await login(projectApplication);
-    console.log('OUTPUT:::reza', reza)
+    await login(projectApplication);
 
     const pulumi = await getPulumi({
         folder: inputs.folder

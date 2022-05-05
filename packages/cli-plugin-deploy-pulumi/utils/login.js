@@ -61,7 +61,6 @@ module.exports = async projectApplication => {
         command: ["login", login]
     });
 
-    console.log('LOGIN:::', login)
     return { login };
 };
 
