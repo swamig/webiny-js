@@ -8,14 +8,18 @@ module.exports = async (inputs, context) => {
     await loadEnvVariables(inputs, context);
 
     const cwd = process.cwd();
+    console.log('OUTPUT:::cwd', cwd)
 
     // Get project application metadata.
     const projectApplication = getProjectApplication({
         cwd: path.join(cwd, inputs.folder)
     });
 
+    console.log('OUTPUT:::pa', projectApplication)
+
     // Will also install Pulumi, if not already installed.
-    await login(projectApplication);
+    const reza = await login(projectApplication);
+    console.log('OUTPUT:::reza', reza)
 
     const pulumi = await getPulumi({
         folder: inputs.folder
@@ -38,6 +42,8 @@ module.exports = async (inputs, context) => {
             }
         });
     } catch (e) {
+        console.log('OUTPUT:::stack exists error', e)
+
         stackExists = false;
     }
 
