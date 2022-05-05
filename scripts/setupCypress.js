@@ -49,6 +49,8 @@ const args = {
         cwd: args.projectFolder
     });
 
+    console.log("SETUP_CYPRESS:::", apiOutput);
+
     cypressConfig.env.API_URL = apiOutput.apiUrl;
     cypressConfig.env.GRAPHQL_API_URL = apiOutput.apiUrl + "/graphql";
     cypressConfig.env.CMS_MANAGE_GRAPHQL_API_URL = apiOutput.apiUrl + "/cms/manage";
@@ -73,11 +75,13 @@ const args = {
             env: args.env,
             cwd: args.projectFolder
         });
+        console.log("SETUP_CYPRESS:::ADMIN_OUTPUT", adminOutput);
         const websiteOutput = getStackOutput({
             folder: "apps/website",
             env: args.env,
             cwd: args.projectFolder
         });
+        console.log("SETUP_CYPRESS:::WEB_OUTPUT", websiteOutput);
 
         cypressConfig.baseUrl = adminOutput.appUrl;
         cypressConfig.env.ADMIN_URL = adminOutput.appUrl;

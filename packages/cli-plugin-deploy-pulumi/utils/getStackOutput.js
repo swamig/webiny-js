@@ -6,11 +6,18 @@ const cache = {};
 const getOutputJson = ({ folder, env, cwd }) => {
     const project = getProject();
 
+    console.log("GSO:::getOutputJson", { folder, env, cwd });
+
     if (cache[folder + env]) {
+        console.log("GSO:::CACHE HIT");
         return cache[folder + env];
     }
 
     try {
+        console.log("GSO:::CMD");
+        console.log(
+            ["webiny", "output", folder, "--env", env, "--json", "--no-debug"].filter(Boolean)
+        );
         const { stdout } = execa.sync(
             "yarn",
             ["webiny", "output", folder, "--env", env, "--json", "--no-debug"].filter(Boolean),
@@ -19,10 +26,14 @@ const getOutputJson = ({ folder, env, cwd }) => {
             }
         );
 
+        console.log("GSO:stdout", stdout);
+
         // Let's get the output after the first line break. Everything before is just yarn stuff.
         const extractedJSON = stdout.substring(stdout.indexOf("{"));
         return (cache[folder + env] = JSON.parse(extractedJSON));
     } catch (e) {
+        console.log("GSO:::ERROR");
+        console.log(e);
         return null;
     }
 };
@@ -52,6 +63,7 @@ module.exports = (folderOrArgs, env, map) => {
         throw new Error(`Please specify environment, for example "dev".`);
     }
 
+    console.log("GSO:::finalArgs", args);
     const output = getOutputJson(args);
     if (!output) {
         return output;
