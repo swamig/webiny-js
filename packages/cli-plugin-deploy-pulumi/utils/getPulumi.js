@@ -13,13 +13,23 @@ module.exports = async (options = {}) => {
     const cwd = process.cwd();
 
     let pulumiWorkDir = cwd;
+
+    console.log("GET_PULUMI:::pulumiWorkDir", pulumiWorkDir);
+
     if (options.folder) {
         // With new Pulumi architecture Pulumi.yaml file should sit somewhere in .pulumi dir.
         // For backwards compatibility we fall back to app source dir in case it doesn't exist.
         pulumiWorkDir = getPulumiWorkDir(projectRoot, options.folder);
 
+        console.log("GET_PULUMI:::pulumiWorkDir222", pulumiWorkDir);
+        console.log(
+            "GET_PULUMI:::pulumiWorkDir333",
+            fs.existsSync(path.join(pulumiWorkDir, "Pulumi.yaml"))
+        );
+
         if (!fs.existsSync(path.join(pulumiWorkDir, "Pulumi.yaml"))) {
             pulumiWorkDir = path.join(projectRoot, options.folder);
+            console.log("GET_PULUMI:::pulumiWorkDir444", pulumiWorkDir);
         }
     }
 
