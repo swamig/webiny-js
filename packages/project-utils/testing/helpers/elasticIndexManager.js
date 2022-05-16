@@ -1,12 +1,20 @@
-module.exports.elasticIndexManager = (global, elasticsearchClient) => {
+module.exports.elasticIndexManager = ({ global, client, onBeforeEach }) => {
     const clearEsIndices = async () => {
-        await elasticsearchClient.indices.delete({
-            index: "_all"
-        });
+        //console.log("Started with clearing Elasticsearch indices.");
+        try {
+            await client.indices.deleteAll();
+        } catch (ex) {
+            console.log("Could not delete all indexes.");
+            console.log(JSON.stringify(ex));
+            throw ex;
+        }
     };
 
     global.__beforeEach = async () => {
         await clearEsIndices();
+        if (typeof onBeforeEach === "function") {
+            await onBeforeEach();
+        }
     };
 
     global.__afterEach = async () => {

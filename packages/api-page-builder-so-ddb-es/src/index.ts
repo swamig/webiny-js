@@ -12,7 +12,7 @@ import { createPageEntity } from "~/definitions/pageEntity";
 import { createPageElasticsearchEntity } from "~/definitions/pageElasticsearchEntity";
 import { PluginsContainer } from "@webiny/plugins";
 import { getElasticsearchOperators } from "@webiny/api-elasticsearch/operators";
-import { execOnBeforeInstall } from "~/operations/system/installation";
+import { createElasticsearchIndex } from "~/elasticsearch/createElasticsearchIndex";
 import { createSettingsStorageOperations } from "~/operations/settings";
 import { createCategoryDynamoDbFields } from "~/operations/category/fields";
 import { createCategoryStorageOperations } from "~/operations/category";
@@ -25,6 +25,7 @@ import {
     createPagesDynamoDbFields
 } from "~/operations/pages/fields";
 import { createPageStorageOperations } from "~/operations/pages";
+import { elasticsearchIndexPlugins } from "~/elasticsearch/indices";
 
 export const createStorageOperations: StorageOperationsFactory = params => {
     const {
@@ -33,7 +34,7 @@ export const createStorageOperations: StorageOperationsFactory = params => {
         table,
         esTable,
         attributes,
-        plugins: customPlugins
+        plugins: userPlugins
     } = params;
 
     const tableInstance = createTable({
@@ -49,7 +50,7 @@ export const createStorageOperations: StorageOperationsFactory = params => {
         /**
          * User defined custom plugins.
          */
-        ...(customPlugins || []),
+        ...(userPlugins || []),
         /**
          * DynamoDB filter plugins for the where conditions.
          */
@@ -77,7 +78,11 @@ export const createStorageOperations: StorageOperationsFactory = params => {
         /**
          * Page fields required for filtering/sorting when using dynamodb.
          */
-        createPagesDynamoDbFields()
+        createPagesDynamoDbFields(),
+        /**
+         * Built-in Elasticsearch index templates
+         */
+        elasticsearchIndexPlugins()
     ]);
 
     const entities = {
@@ -120,14 +125,15 @@ export const createStorageOperations: StorageOperationsFactory = params => {
 
     return {
         init: async context => {
-            context.pageBuilder.onBeforeInstall.subscribe(async ({ tenant }) => {
-                await execOnBeforeInstall({
-                    tenant,
-                    elasticsearch
+            context.i18n.locales.onBeforeCreate.subscribe(async ({ locale, tenant }) => {
+                await createElasticsearchIndex({
+                    elasticsearch,
+                    plugins,
+                    locale: locale.code,
+                    tenant
                 });
             });
         },
-        plugins: [],
         getEntities: () => entities,
         getTable: () => tableInstance,
         getEsTable: () => tableElasticsearchInstance,

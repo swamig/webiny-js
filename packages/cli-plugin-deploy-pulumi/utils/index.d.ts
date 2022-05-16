@@ -1,8 +1,10 @@
+import { Pulumi } from "@webiny/pulumi-sdk";
+
 interface StackOutput {
     apiUrl: string;
     region: string;
     dynamoDbTable: string;
-    // [key: string]: any;
+    [key: string]: any;
 }
 
 export function tagResources(tags: Record<string, string>): void;
@@ -18,6 +20,11 @@ export function getStackOutput(
 export function getStackOutput(options: {
     folder: string;
     env: string;
+    variant?: string;
     map?: Record<string, string>;
     cwd?: string;
 }): StackOutput;
+
+export function getPulumi(options: {
+    folder: string;install?:boolean;
+}): Pulumi;
