@@ -21,10 +21,20 @@ import { PublishPageButtonComposable } from "@webiny/app-page-builder/editor/plu
 import RequestReview from "@webiny/app-page-builder/admin/plugins/pageDetails/header/requestReview/RequestReview";
 import RequestChanges from "@webiny/app-page-builder/admin/plugins/pageDetails/header/requestChanges/RequestChanges";
 import { PageRevisionListItemGraphic } from "@webiny/app-page-builder/admin/plugins/pageDetails/pageRevisions/PageRevisionListItemGraphic";
+import { useWcp } from "@webiny/app-wcp/hooks/useWcp";
 
 export default () => [routes, defaultBar];
 
 export const ApwAdmin = () => {
+    const { canUseFeature } = useWcp();
+    console.log(
+        'canUseFeature("advancedPublishingWorkflow")',
+        canUseFeature("advancedPublishingWorkflow")
+    );
+    if (!canUseFeature("advancedPublishingWorkflow")) {
+        return null;
+    }
+
     return (
         <>
             <Compose with={PublishRevisionHoc} component={PublishRevision} />

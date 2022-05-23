@@ -18,8 +18,7 @@ const DEBUG = String(process.env.DEBUG);
 const WEBINY_LOGS_FORWARD_URL = String(process.env.WEBINY_LOGS_FORWARD_URL);
 
 // Enables Webiny Control Panel features.
-const WCP_PROJECT_ID = String(process.env.WCP_PROJECT_ID);
-const WCP_PROJECT_ENVIRONMENT_API_KEY = String(process.env.WCP_PROJECT_ENVIRONMENT_API_KEY);
+const WCP_PROJECT_ENVIRONMENT = String(process.env.WCP_PROJECT_ENVIRONMENT);
 
 export default () => {
     const dynamoDb = new DynamoDB();
@@ -82,8 +81,7 @@ export default () => {
             EXPORT_PAGES_PROCESS_HANDLER: pageBuilder.functions.exportPages.process.arn,
             DEBUG,
             WEBINY_LOGS_FORWARD_URL,
-            WCP_PROJECT_ID,
-            WCP_PROJECT_ENVIRONMENT_API_KEY
+            WCP_PROJECT_ENVIRONMENT,
         },
         primaryDynamodbTable: dynamoDb.table,
         elasticsearchDynamodbTable: elasticSearch.table,
@@ -107,8 +105,7 @@ export default () => {
             S3_BUCKET: fileManager.bucket.id,
             DEBUG,
             WEBINY_LOGS_FORWARD_URL,
-            WCP_PROJECT_ID,
-            WCP_PROJECT_ENVIRONMENT_API_KEY
+            WCP_PROJECT_ENVIRONMENT
         },
         primaryDynamodbTable: dynamoDb.table,
         elasticsearchDynamodbTable: elasticSearch.table,

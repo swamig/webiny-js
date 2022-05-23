@@ -21,15 +21,17 @@ export const Admin: React.FC<AdminProps> = ({ children, createApolloClient }) =>
      * TODO @ts-refactor
      */
     return (
-        <BaseAdmin>
-            <Provider hoc={ApolloProvider} />
-            <Provider hoc={TelemetryProvider} />
-            <Provider hoc={UiStateProvider} />
-            <Provider hoc={SearchProvider} />
-            <Provider hoc={UserMenuProvider} />
-            <Provider hoc={NavigationProvider} />
-            <Base />
-            {children}
-        </BaseAdmin>
+        <ApolloProvider>
+            {/*Wcp*/}
+            <BaseAdmin>
+                <Provider hoc={TelemetryProvider} />
+                <Provider hoc={UiStateProvider} />
+                <Provider hoc={SearchProvider} />
+                <Provider hoc={UserMenuProvider} />
+                <Provider hoc={NavigationProvider} />
+                <Base />
+                {children}
+            </BaseAdmin>
+        </ApolloProvider>
     );
 };

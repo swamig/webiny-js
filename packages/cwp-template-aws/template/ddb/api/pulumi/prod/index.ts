@@ -22,8 +22,7 @@ const WEBINY_LOGS_FORWARD_URL = String(process.env.WEBINY_LOGS_FORWARD_URL);
 const protectedEnvironment = process.env.WEBINY_ENV === "prod";
 
 // Enables Webiny Control Panel features.
-const WCP_PROJECT_ID = String(process.env.WCP_PROJECT_ID);
-const WCP_PROJECT_ENVIRONMENT_API_KEY = String(process.env.WCP_PROJECT_ENVIRONMENT_API_KEY);
+const WCP_PROJECT_ENVIRONMENT = String(process.env.WCP_PROJECT_ENVIRONMENT);
 
 export default () => {
     const dynamoDb = new DynamoDB({ protectedEnvironment });
@@ -70,8 +69,7 @@ export default () => {
             S3_BUCKET: fileManager.bucket.id,
             DEBUG,
             WEBINY_LOGS_FORWARD_URL,
-            WCP_PROJECT_ID,
-            WCP_PROJECT_ENVIRONMENT_API_KEY
+            WCP_PROJECT_ENVIRONMENT
         },
         primaryDynamodbTable: dynamoDb.table,
         bucket: fileManager.bucket,
@@ -86,8 +84,7 @@ export default () => {
             S3_BUCKET: fileManager.bucket.id,
             DEBUG,
             WEBINY_LOGS_FORWARD_URL,
-            WCP_PROJECT_ID,
-            WCP_PROJECT_ENVIRONMENT_API_KEY
+            WCP_PROJECT_ENVIRONMENT
         },
         primaryDynamodbTable: dynamoDb.table
     });

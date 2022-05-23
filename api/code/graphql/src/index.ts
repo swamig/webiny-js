@@ -1,5 +1,6 @@
 import { DocumentClient } from "aws-sdk/clients/dynamodb";
 import { createHandler } from "@webiny/handler-aws";
+import { createWcpContext, createWcpGraphQL } from "@webiny/api-wcp";
 import graphqlPlugins from "@webiny/handler-graphql";
 import i18nPlugins from "@webiny/api-i18n/graphql";
 import i18nDynamoDbStorageOperations from "@webiny/api-i18n-ddb";
@@ -31,6 +32,7 @@ import headlessCmsModelFieldToGraphQLPlugins from "@webiny/api-headless-cms/cont
 import securityPlugins from "./security";
 import tenantManager from "@webiny/api-tenant-manager";
 import { createApwContext, createApwGraphQL } from "@webiny/api-apw";
+
 import { createStorageOperations as createApwSaStorageOperations } from "@webiny/api-apw-scheduler-so-ddb";
 
 // Imports plugins created via scaffolding utilities.
@@ -45,6 +47,9 @@ const documentClient = new DocumentClient({
 
 export const handler = createHandler({
     plugins: [
+        createWcpContext(),
+        createWcpGraphQL(),
+        dynamoDbPlugins(),
         dynamoDbPlugins(),
         logsPlugins(),
         graphqlPlugins({ debug }),

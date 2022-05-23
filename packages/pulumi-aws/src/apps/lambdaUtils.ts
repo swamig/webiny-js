@@ -67,10 +67,24 @@ export function createLambdaRole(app: PulumiApp, params: LambdaRoleParams) {
 }
 
 export function getCommonLambdaEnvVariables(app: PulumiApp) {
-    return {
+    const environmentVariables: Record<string, any> = {
         STAGED_ROLLOUTS_VARIANT: app.ctx.variant || "",
         // Among other things, this determines the amount of information we reveal on runtime errors.
         // https://www.webiny.com/docs/how-to-guides/environment-variables/#debug-environment-variable
         DEBUG: String(process.env.DEBUG)
     };
+
+    if (process.env["WCP_PROJECT_ENVIRONMENT"]) {
+        environmentVariables["WCP_PROJECT_ENVIRONMENT"] = process.env["WCP_PROJECT_ENVIRONMENT"];
+    }
+
+    if (process.env["WCP_API_URL"]) {
+        environmentVariables["WCP_API_URL"] = process.env["WCP_API_URL"];
+    }
+
+    if (process.env["WCP_APP_URL"]) {
+        environmentVariables["WCP_APP_URL"] = process.env["WCP_APP_URL"];
+    }
+
+    return environmentVariables;
 }

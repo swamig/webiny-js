@@ -55,6 +55,14 @@ module.exports = async (inputs, context) => {
     try {
         await sendEvent({ event: "project-deploy-start" });
 
+        // Deploying `storage` project application.
+        isFirstDeployment && console.log();
+        context.info(`Deploying ${green("storage")} project application...`);
+
+        await deploy("apps/storage", env, inputs);
+        context.success(`${green("storage")} project application was deployed successfully!`);
+        isFirstDeployment && (await sleep(2000));
+
         // Deploying `api` project application.
         isFirstDeployment && console.log();
         context.info(`Deploying ${green("api")} project application...`);

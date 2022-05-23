@@ -1,70 +1,36 @@
-import fetch from "node-fetch";
-import { DecryptedWcpProjectLicense, EncryptedWcpProjectLicense } from "~/types";
+import { WcpProjectEnvironment } from "@webiny/wcp/types";
+import { decrypt } from "@webiny/wcp";
 
-export const getWcpApiUrl = (path?: string) => {
-    const apiUrl = process.env.WCP_API_URL || "https://d2d4evj0p7twjc.cloudfront.net";
-    return path ? apiUrl + path : apiUrl;
-};
+process.env.WCP_API_URL = "https://d16nfk35w3a3cu.cloudfront.net";
+process.env.WCP_APP_URL = "http://localhost:3000";
+process.env.WCP_PROJECT_ENVIRONMENT =
+    "eyJpZCI6ImRldiN1d2hsMGZpemZlIiwiYXBpS2V5IjoiNWQxNTU3NjYtNDUzYi00ZjRhLTg2MWMtMTNlM2RmNTFkODEzIiwib3JnIjp7ImlkIjoiYm9yZyJ9LCJwcm9qZWN0Ijp7ImlkIjoiYXdlc29tZS1wcm9qZWN0In19";
 
-export const getWcpAppUrl = (path?: string) => {
-    const appUrl = process.env.WCP_API_URL || "https://app.webiny.com";
-    return path ? appUrl + path : appUrl;
-};
-
-export function getWcpProjectId(split: true): [string, string];
-export function getWcpProjectId(split: false): string;
-export function getWcpProjectId(split: boolean) {
-    const wcpProjectId = process.env.WCP_PROJECT_ID;
-    if (!wcpProjectId) {
-        return split ? [null, null] : null;
+export function getWcpProjectEnvironment(): WcpProjectEnvironment | null {
+    if (process.env.WCP_PROJECT_ENVIRONMENT) {
+        try {
+            return JSON.parse(
+                decrypt(process.env.WCP_PROJECT_ENVIRONMENT)
+            ) as WcpProjectEnvironment;
+        } catch {
+            throw new Error("Could not decrypt WCP_PROJECT_ENVIRONMENT environment variable data.");
+        }
     }
-
-    if (!split) {
-        return wcpProjectId;
-    }
-
-    const [orgId = null, projectId = null] = wcpProjectId.split("/");
-    return [orgId, projectId];
+    return null;
 }
 
-export const getWcpProjectEnvironmentApiKey = () => {
-    return process.env.WCP_PROJECT_ENVIRONMENT_API_KEY;
-};
+export const geWcpProjectLicenseCacheKey = () => {
+    // We're dividing an hour into 5-minute blocks. In an hour, that's 12 blocks total.
+    // So, while we're in the same 5-minute block, the cached license will be returned.
+    // Once we exit it, the license will again be fetched from the WCP API.
+    // This way of caching / invalidating the cache ensures all active AWS Lambda function
+    // instances flush their cache and fetch the license at the same time.
+    const currentHourOfTheDay = new Date().getHours();
+    const currentMinuteOfTheHour = new Date().getMinutes();
 
-export const getWcpProjectLicense = async () => {
-    const apiKey = getWcpProjectEnvironmentApiKey();
-    if (!apiKey) {
-        return null;
-    }
-
-    const [orgId, projectId] = getWcpProjectId(true);
-    if (!orgId || !projectId) {
-        return null;
-    }
-
-    // Fetch and decrypt the license.
-    const getLicenseEndpoint = getWcpApiUrl(`/orgs/${orgId}/projects/${projectId}/license`);
-
-    const encryptedLicense: EncryptedWcpProjectLicense | null = await fetch(getLicenseEndpoint, {
-        headers: { apiKey }
-    })
-        .then(response => response.text())
-        .catch(e => {
-            console.error(
-                `An error occurred while trying to retrieve the license for project "${orgId}/${projectId}": ${e.message}`
-            );
-            return null;
-        });
-
-    if (!encryptedLicense) {
-        return null;
-    }
-
-    try {
-        // For now, when we say "decrypt", we're basically just base64 decoding the received string.
-        const decryptedLicense = Buffer.from(encryptedLicense, "base64").toString("utf-8");
-        return JSON.parse(decryptedLicense) as DecryptedWcpProjectLicense;
-    } catch {
-        return null;
-    }
+    // Example returned values:
+    // - "cached-license-16-2"
+    // - "cached-license-0-1"
+    // - "cached-license-23-12"
+    return `cached-project-license-${currentHourOfTheDay}-${Math.ceil(currentMinuteOfTheHour / 5)}`;
 };

@@ -21,6 +21,9 @@ export interface ApplicationGenericConfig extends ApplicationBuilderConfig {
 export class ApplicationBuilderGeneric extends ApplicationBuilder<ApplicationGenericConfig> {
     public async createOrSelectStack(args: ApplicationStackArgs): Promise<ApplicationStack> {
         const PULUMI_SECRETS_PROVIDER = process.env["PULUMI_SECRETS_PROVIDER"];
+        const WCP_PROJECT_ENVIRONMENT = process.env["WCP_PROJECT_ENVIRONMENT"];
+        const WCP_API_URL = process.env["WCP_API_URL"];
+        const WCP_APP_URL = process.env["WCP_APP_URL"];
 
         // Use ";" when on Windows. For Mac and Linux, use ":".
         const PATH_SEPARATOR = os.platform() === "win32" ? ";" : ":";
@@ -41,6 +44,25 @@ export class ApplicationBuilderGeneric extends ApplicationBuilder<ApplicationGen
 
         const appController = app.createController();
 
+        const envVars: Record<string, any> = {
+            WEBINY_ENV: args.env,
+            WEBINY_PROJECT_NAME: this.config.name,
+            // Add Pulumi CLI path to env variable, so the CLI would be properly resolved.
+            PATH: args.pulumi.pulumiFolder + PATH_SEPARATOR + (process.env.PATH ?? "")
+        };
+
+        if (WCP_PROJECT_ENVIRONMENT) {
+            envVars["WCP_PROJECT_ENVIRONMENT"] = WCP_PROJECT_ENVIRONMENT;
+        }
+
+        if (WCP_API_URL) {
+            envVars["WCP_API_URL"] = WCP_API_URL;
+        }
+
+        if (WCP_APP_URL) {
+            envVars["WCP_APP_URL"] = WCP_APP_URL;
+        }
+
         const workspace = await LocalWorkspace.create({
             program: () => appController.run(),
             workDir: pulumiWorkDir,
@@ -51,12 +73,7 @@ export class ApplicationBuilderGeneric extends ApplicationBuilder<ApplicationGen
             },
             secretsProvider: PULUMI_SECRETS_PROVIDER,
             pulumiHome: args.pulumi.pulumiFolder,
-            envVars: {
-                WEBINY_ENV: args.env,
-                WEBINY_PROJECT_NAME: this.config.name,
-                // Add Pulumi CLI path to env variable, so the CLI would be properly resolved.
-                PATH: args.pulumi.pulumiFolder + PATH_SEPARATOR + (process.env.PATH ?? "")
-            }
+            envVars
         });
 
         const stackName = getStackName({

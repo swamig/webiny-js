@@ -1,9 +1,7 @@
-import { ContextPlugin } from "@webiny/handler";
-import { WcpContext } from "~/types";
-import { createWcp } from "~/createWcp";
+/**
+ * We have separated context and GraphQL creation so user can initialize only context if required.
+ * GraphQL will not work without context, but context will without GraphQL.
+ */
 
-export default () => {
-    return new ContextPlugin<WcpContext>(async context => {
-        context.wcp = await createWcp();
-    });
-};
+export * from "./context";
+export * from "./graphql";

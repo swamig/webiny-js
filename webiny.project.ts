@@ -1,6 +1,7 @@
 // @ts-nocheck
 export default {
     name: "webiny-js",
+    id: "borg/awesome-project",
     cli: {
         // No need to track anything when developing Webiny.
         telemetry: false,
