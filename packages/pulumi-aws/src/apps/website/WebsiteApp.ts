@@ -17,6 +17,7 @@ import { createPrerenderingService } from "./WebsitePrerendering";
 import { StorageOutput, VpcConfig } from "../common";
 import { AppInput, getAppInput } from "../utils";
 import { websiteRender } from "./WebsiteHookRender";
+import { applyTenantRouter } from "../tenantRouter";
 
 export interface WebsiteAppConfig {
     /** Custom domain configuration */
@@ -158,6 +159,10 @@ export const WebsiteApp = defineApp({
         const domain = config.domain?.(app.ctx);
         if (domain) {
             applyCustomDomain(deliveryCloudfront, domain);
+        }
+
+        if (process.env.WEBINY_MULTI_TENANCY === "true") {
+            applyTenantRouter(app, deliveryCloudfront);
         }
 
         app.addOutputs({
