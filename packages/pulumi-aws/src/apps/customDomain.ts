@@ -12,6 +12,17 @@ export function applyCustomDomain(
     cloudfront: PulumiAppResource<typeof aws.cloudfront.Distribution>,
     params: CustomDomainParams
 ) {
+    cloudfront.config.defaultCacheBehavior(value => {
+        return {
+            ...value,
+            forwardedValues: {
+                cookies: value.forwardedValues?.cookies ?? { forward: "none" },
+                queryString: value.forwardedValues?.queryString ?? false,
+                headers: [...(value.forwardedValues?.headers || []), "Host"]
+            }
+        };
+    });
+
     cloudfront.config.aliases([params.domain]);
     cloudfront.config.viewerCertificate({
         acmCertificateArn: params.acmCertificateArn,
