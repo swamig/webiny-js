@@ -75,24 +75,21 @@ module.exports = async (inputs, context) => {
         folder: inputs.folder
     });
 
-    const stack = await application.createOrSelectStack({
-        appDir: projectApplication.root,
-        projectDir: projectApplication.project.root,
-        env,
-        variant,
-        pulumi: pulumi
-    });
+    const PULUMI_SECRETS_PROVIDER = String(process.env["PULUMI_SECRETS_PROVIDER"]);
+    const PULUMI_CONFIG_PASSPHRASE = String(process.env["PULUMI_CONFIG_PASSPHRASE"]);
 
-    if (stack.app) {
-        // This is basically a hack to fix issue with pulumi context changing during deploy.
-        // If we run getStackOutput inside pulumi app it changes current pulumi context to other app.
-        // That causes errors on deploy.
-        // Legit fix would be to have a single pulumi login for all the apps, instead of logging to each app separately.
-        // Currently we just add logging back to the app we deploy as a last handler in the app.
-        stack.app.addHandler(async () => {
-            await login(projectApplication);
-        });
-    }
+    await pulumi.run({
+        command: ["stack", "select", env],
+        args: {
+            create: true,
+            secretsProvider: PULUMI_SECRETS_PROVIDER
+        },
+        execa: {
+            env: {
+                PULUMI_CONFIG_PASSPHRASE
+            }
+        }
+    });
 
     await runHook({
         hookName: "hook-before-deploy",
@@ -107,14 +104,44 @@ module.exports = async (inputs, context) => {
     context.info(continuing);
     console.log();
 
-    if (inputs.refresh) {
-        await stack.refresh();
-    }
 
     if (inputs.preview) {
-        await stack.preview();
+        await pulumi.run({
+            command: "preview",
+            args: {
+                debug: inputs.debug
+                // Preview command does not accept "--secrets-provider" argument.
+                // secretsProvider: PULUMI_SECRETS_PROVIDER
+            },
+            execa: {
+                stdio: "inherit",
+                env: {
+                    WEBINY_ENV: env,
+                    WEBINY_PROJECT_NAME: projectApplication.project.name,
+                    PULUMI_CONFIG_PASSPHRASE
+                }
+            }
+        });
     } else {
-        await stack.up();
+        await pulumi.run({
+            command: "up",
+            args: {
+                yes: true,
+                skipPreview: true,
+                secretsProvider: PULUMI_SECRETS_PROVIDER,
+                debug: inputs.debug
+            },
+            execa: {
+                // We pipe "stderr" so that we can intercept potential received error messages,
+                // and hopefully, show extra information / help to the user.
+                stdio: ["inherit", "inherit", "pipe"],
+                env: {
+                    WEBINY_ENV: env,
+                    WEBINY_PROJECT_NAME: projectApplication.project.name,
+                    PULUMI_CONFIG_PASSPHRASE
+                }
+            }
+        });
     }
 
     const duration = getDuration();

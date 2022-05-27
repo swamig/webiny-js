@@ -5,22 +5,4 @@
 
 import { createAdminApp } from "@webiny/pulumi-aws";
 
-export default createAdminApp({
-    config(app) {
-        app.bucket.config.versioning({
-            enabled: false
-        });
-    },
-    onBeforeBuild() {
-        console.log("BEFORE BUILD");
-    },
-    onAfterBuild() {
-        console.log("AFTER BUILD");
-    },
-    onBeforeDeploy() {
-        console.log("BEFORE DEPLOY");
-    },
-    onAfterDeploy() {
-        console.log("AFTER DEPLOY");
-    }
-});
+export default createAdminApp();

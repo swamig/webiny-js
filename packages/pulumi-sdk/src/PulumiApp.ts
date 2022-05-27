@@ -201,7 +201,10 @@ export abstract class PulumiApp<TConfig = unknown> {
         return module;
     }
 
-    /** Internal usage only. */
+    /**
+     * @internal
+     * Internal usage only.
+     */
     public createController() {
         return {
             run: this.runProgram.bind(this),
