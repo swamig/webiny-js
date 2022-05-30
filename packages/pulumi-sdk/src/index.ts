@@ -6,6 +6,5 @@ export * from "./ApplicationConfig";
 export * from "./ApplicationHook";
 export * from "./ApplicationBuilder";
 export * from "./ApplicationBuilderGeneric";
-export * from "./ApplicationBuilderLegacy";
 
 export * from "./utils";
