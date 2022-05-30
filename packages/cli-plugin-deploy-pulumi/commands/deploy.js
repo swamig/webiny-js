@@ -65,7 +65,8 @@ module.exports = async (inputs, context) => {
 
     const pulumi = await getPulumi({
         execa: {
-            cwd: projectApplication.root
+            // cwd: projectApplication.root
+            cwd: path.join(process.cwd(), ".webiny", "pulumi-app-deployments", "apps/storage")
         }
     });
 
