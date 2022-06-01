@@ -1,12 +1,12 @@
-import { ApplicationContext, PulumiApp } from "@webiny/pulumi-sdk";
+import { PulumiApp } from "@webiny/pulumi-sdk";
 
-type InputFcn<T> = (ctx: ApplicationContext) => T;
+type CallbackPulumiAppInput<T> = (app: PulumiApp) => T;
 
-export type AppInput<T> = T | InputFcn<T>;
+export type PulumiAppInput<T> = T | CallbackPulumiAppInput<T>;
 
-export function getAppInput<T>(app: PulumiApp, input: AppInput<T>) {
+export function getPulumiAppInput<T>(app: PulumiApp, input: PulumiAppInput<T>) {
     if (typeof input === "function") {
-        return (input as InputFcn<T>)(app.ctx);
+        return (input as CallbackPulumiAppInput<T>)(app);
     }
 
     return input;

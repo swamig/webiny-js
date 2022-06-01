@@ -1,5 +1,5 @@
 import { createPulumiApp, PulumiApp } from "@webiny/pulumi-sdk";
-import { AppInput, getAppInput } from "../utils";
+import { AppInput, getPulumiAppInput } from "../utils";
 import { StorageCognito } from "./StorageCognito";
 import { StorageDynamo } from "./StorageDynamo";
 import { ElasticSearch } from "./StorageElasticSearch";
@@ -91,7 +91,7 @@ export function createStorageApp(projectAppConfig?: CreateStorageAppConfig) {
                 // Setup file storage bucket
                 const fileManagerBucket = app.addModule(StorageFileManger, { protect });
 
-                const elasticSearch = getAppInput(app, projectAppConfig?.elasticSearch)
+                const elasticSearch = getPulumiAppInput(app, projectAppConfig?.elasticSearch)
                     ? app.addModule(ElasticSearch, { protect })
                     : null;
 

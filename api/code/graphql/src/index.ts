@@ -34,6 +34,19 @@ import tenantManager from "@webiny/api-tenant-manager";
 import { createApwContext, createApwGraphQL } from "@webiny/api-apw";
 import { createStorageOperations as createApwSaStorageOperations } from "@webiny/api-apw-scheduler-so-ddb";
 
+import { createApiApp } from "@webiny/pulumi-aws";
+
+const aa = createApiApp({
+    vpc: false,
+    pulumi: (app) => {
+        const aa = app.programReturnValue;
+        return {}
+    }
+
+});
+
+const aab = aa.pulumi
+
 // Imports plugins created via scaffolding utilities.
 import scaffoldsPlugins from "./plugins/scaffolds";
 

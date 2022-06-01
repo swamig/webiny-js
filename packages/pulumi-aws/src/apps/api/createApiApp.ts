@@ -1,4 +1,4 @@
-import { ApplicationContext, createPulumiApp, app } from "@webiny/pulumi-sdk";
+import { createPulumiApp, PulumiAppInput, PulumiProgram } from "@webiny/pulumi-sdk";
 import {
     ApiGateway,
     ApiApwScheduler,
@@ -11,41 +11,23 @@ import {
 import { StorageOutput, VpcConfig } from "./../common";
 import { applyCustomDomain, CustomDomainParams } from "../customDomain";
 
-export interface CreateApiAppConfig {
+export interface CreateApiAppConfig<TPPRV = Record<string, unknown>> {
     /**
      * Enables or disables VPC for the API.
-     * For VPC to work you also have to enable it in the `storage` application.
+     * For VPC to work you also have to enable it in the Storage application.
      */
-    vpc?: AppInput<boolean | undefined>;
+    vpc?: PulumiAppInput<boolean>;
 
     /** Custom domain configuration */
-    domain?(ctx: ApplicationContext): CustomDomainParams | undefined | void;
+    domain?: PulumiAppInput<CustomDomainParams>;
+
+    pulumi?: PulumiProgram<TPPRV>;
 }
 
-export interface CreateProjectAppParams {
-    id: string;
-    name: string;
-    description: string;
-    path: string;
-    cli: Record<string, any>;
-    pulumi: app;
-}
-
-export interface ProjectApp {
-    id: string;
-    name: string;
-    description: string;
-    path: string;
-    cli: Record<string, any>;
-    pulumi: app;
-}
-
-function createProjectApp(params: CreateProjectAppParams): ProjectApp {
-    return { ...params };
-}
-
-export function createApiApp(projectAppConfig?: CreateApiAppConfig) {
-    return createProjectApp({
+export function createApiApp<TPPRV = Record<string, unknown>>(
+    projectAppConfig: CreateApiAppConfig<TPPRV> = {}
+) {
+    return {
         id: "api",
         name: "API",
         description:
@@ -62,7 +44,7 @@ export function createApiApp(projectAppConfig?: CreateApiAppConfig) {
             name: "api",
             path: "api",
             config: projectAppConfig,
-            program: app => {
+            program: async app => {
                 // Enables logs forwarding.
                 // https://www.webiny.com/docs/how-to-guides/use-watch-command#enabling-logs-forwarding
                 const WEBINY_LOGS_FORWARD_URL = String(process.env.WEBINY_LOGS_FORWARD_URL);
@@ -73,7 +55,7 @@ export function createApiApp(projectAppConfig?: CreateApiAppConfig) {
                 // Register VPC config module to be available to other modules
                 app.addModule(VpcConfig, {
                     // enabled: getAppInput(app, config.vpc)
-                    enabled: false
+                    enabled: app.getInput(projectAppConfig.vpc)
                 });
 
                 const pageBuilder = app.addModule(ApiPageBuilder, {
@@ -218,6 +200,10 @@ export function createApiApp(projectAppConfig?: CreateApiAppConfig) {
                 //     });
                 // }
 
+                if (projectAppConfig.pulumi) {
+                    await projectAppConfig.pulumi(app);
+                }
+
                 return {
                     fileManager,
                     graphql,
@@ -226,8 +212,7 @@ export function createApiApp(projectAppConfig?: CreateApiAppConfig) {
                     cloudfront,
                     apwScheduler
                 };
-
             }
         })
-    });
+    };
 }

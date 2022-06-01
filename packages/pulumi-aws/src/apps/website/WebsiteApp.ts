@@ -15,7 +15,7 @@ import { websiteUpload } from "./WebsiteUpload";
 import { applyCustomDomain, CustomDomainParams } from "../customDomain";
 import { createPrerenderingService } from "./WebsitePrerendering";
 import { StorageOutput, VpcConfig } from "../common";
-import { AppInput, getAppInput } from "../utils";
+import { AppInput, getPulumiAppInput } from "../utils";
 import { websiteRender } from "./WebsiteHookRender";
 
 export interface WebsiteAppConfig {
@@ -38,7 +38,7 @@ export const WebsiteApp = createPulumiApp({
 
         // Register VPC config module to be available to other modules
         app.addModule(VpcConfig, {
-            enabled: getAppInput(app, config.vpc)
+            enabled: getPulumiAppInput(app, config.vpc)
         });
 
         const appBucket = createPublicAppBucket(app, "app");
