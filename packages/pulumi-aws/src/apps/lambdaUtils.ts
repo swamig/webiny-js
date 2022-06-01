@@ -80,7 +80,7 @@ export function getCommonLambdaEnvVariables(app: PulumiApp) {
             return current;
         },
         {
-            STAGED_ROLLOUTS_VARIANT: app.ctx.variant || "",
+            // STAGED_ROLLOUTS_VARIANT: app.ctx.variant || "",
             // Among other things, this determines the amount of information we reveal on runtime errors.
             // https://www.webiny.com/docs/how-to-guides/environment-variables/#debug-environment-variable
             DEBUG: String(process.env.DEBUG)

@@ -33,7 +33,7 @@ export const ApiFileManager = defineAppModule({
                 description: "Performs image optimization, resizing, etc.",
                 code: new pulumi.asset.AssetArchive({
                     ".": new pulumi.asset.FileArchive(
-                        path.join(app.ctx.appDir, "code/fileManager/transform/build")
+                        path.join(app.paths.absolute, "code/fileManager/transform/build")
                     )
                 }),
                 layers: [getLayerArn("sharp")],
@@ -58,7 +58,7 @@ export const ApiFileManager = defineAppModule({
                 description: "Triggered when a file is deleted.",
                 code: new pulumi.asset.AssetArchive({
                     ".": new pulumi.asset.FileArchive(
-                        path.join(app.ctx.appDir, "code/fileManager/manage/build")
+                        path.join(app.paths.absolute, "code/fileManager/manage/build")
                     )
                 }),
                 environment: {
@@ -82,7 +82,7 @@ export const ApiFileManager = defineAppModule({
                 description: "Serves previously uploaded files.",
                 code: new pulumi.asset.AssetArchive({
                     ".": new pulumi.asset.FileArchive(
-                        path.join(app.ctx.appDir, "code/fileManager/download/build")
+                        path.join(app.paths.absolute, "code/fileManager/download/build")
                     )
                 }),
                 environment: {

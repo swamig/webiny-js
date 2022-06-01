@@ -1,7 +1,7 @@
 import * as aws from "@pulumi/aws";
 
 import {
-    defineApp,
+    createPulumiApp,
     createGenericApplication,
     ApplicationContext,
     ApplicationConfig,
@@ -17,8 +17,9 @@ export interface AdminAppConfig {
     domain?(ctx: ApplicationContext): CustomDomainParams | undefined | void;
 }
 
-export const AdminApp = defineApp({
+export const AdminApp = createPulumiApp({
     name: "Admin",
+    path: 'asd',
     config(app, config: AdminAppConfig) {
         const bucket = createPublicAppBucket(app, "admin-app");
 

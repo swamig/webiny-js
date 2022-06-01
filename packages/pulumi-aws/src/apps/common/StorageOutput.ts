@@ -7,9 +7,10 @@ export const StorageOutput = defineAppModule({
     name: "StorageOutput",
     config(app) {
         return app.addHandler(async () => {
-            const output = await getStackOutput({
+            console.log(app.run)
+            const output = getStackOutput({
                 folder: "apps/storage",
-                env: app.ctx.env
+                env: app.run.params.env
             });
 
             if (!output) {

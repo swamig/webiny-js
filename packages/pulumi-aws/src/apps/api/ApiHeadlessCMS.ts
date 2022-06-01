@@ -32,7 +32,7 @@ export const ApiHeadlessCMS = defineAppModule({
                 memorySize: 512,
                 code: new pulumi.asset.AssetArchive({
                     ".": new pulumi.asset.FileArchive(
-                        path.join(app.ctx.appDir, "code/headlessCMS/build")
+                        path.join(app.paths.absolute, "code/headlessCMS/build")
                     )
                 }),
                 environment: {

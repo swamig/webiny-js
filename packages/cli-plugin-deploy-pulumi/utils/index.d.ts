@@ -25,6 +25,4 @@ export function getStackOutput(options: {
     cwd?: string;
 }): StackOutput;
 
-export function getPulumi(options: {
-    folder: string;install?:boolean;
-}): Pulumi;
+export function getPulumi(options?: { install?: boolean }): Pulumi;

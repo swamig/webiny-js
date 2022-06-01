@@ -1,7 +1,7 @@
 const getPulumi = require("../utils/getPulumi");
 const trimEnd = require("lodash/trimEnd");
 const fs = require("fs");
-const { relative, join } = require("path");
+const { join } = require("path");
 
 // To use a self-managed backend, specify a storage endpoint URL as pulumi login’s <backend-url> argument:
 // s3://<bucket-path>, azblob://<container-path>, gs://<bucket-path>, or file://<fs-path>.
@@ -14,10 +14,7 @@ module.exports = async projectApplication => {
     // Do the login with Pulumi CLI.
     const pulumi = await getPulumi();
 
-    const relativeProjectApplicationPath = relative(
-        projectApplication.project.root,
-        projectApplication.root
-    );
+    const projectAppRelativePath = projectApplication.paths.relative;
 
     // A couple of variations here, just to preserve backwards compatibility.
     let login =
@@ -29,7 +26,7 @@ module.exports = async projectApplication => {
         // If the user passed `s3://my-bucket`, we want to store files in `s3://my-bucket/{project-application-path}`
         const selfManagedBackend = SELF_MANAGED_BACKEND.find(item => login.startsWith(item));
         if (selfManagedBackend) {
-            login = trimEnd(login, "/") + "/" + relativeProjectApplicationPath;
+            login = trimEnd(login, "/") + "/" + projectAppRelativePath;
             login = login.replace(/\\/g, "/");
         }
     } else {
@@ -38,7 +35,7 @@ module.exports = async projectApplication => {
         const stateFilesFolder = join(
             projectApplication.project.root,
             ".pulumi",
-            relativeProjectApplicationPath
+            projectAppRelativePath
         );
 
         if (!fs.existsSync(stateFilesFolder)) {

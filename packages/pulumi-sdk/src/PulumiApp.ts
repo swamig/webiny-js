@@ -1,9 +1,10 @@
 import * as pulumi from "@pulumi/pulumi";
 
-import { ApplicationContext } from "./ApplicationConfig";
 import { PulumiAppModuleDefinition } from "./PulumiAppModule";
 import { ResourceArgs, ResourceConstructor, ResourceType } from "./PulumiResource";
 import { tagResources } from "./utils";
+import findUp from "find-up";
+import path from "path";
 
 export interface CreateResourceParams<TCtor extends ResourceConstructor> {
     name: string;
@@ -20,7 +21,10 @@ export interface PulumiAppResource<T extends ResourceConstructor> {
 
 export interface PulumiAppParams {
     name: string;
-    ctx: ApplicationContext;
+    path: string;
+    program: any;
+    config?: Record<string, any>;
+    cwd?: string;
 }
 
 export interface ResourceHandler {
@@ -48,9 +52,19 @@ interface DeployEventHandler {
     (params: DeployEventParams): Promise<void> | void;
 }
 
-export abstract class PulumiApp<TConfig = unknown> {
+export class PulumiApp {
     public readonly name: string;
-    public readonly ctx: ApplicationContext;
+    public readonly program: any;
+    public readonly config: Record<string, any>;
+    public readonly paths: {
+        absolute: string;
+        relative: string;
+    };
+
+    public run: {
+        params: Record<string, any>;
+    };
+
     private readonly resourceHandlers: ResourceHandler[] = [];
     private readonly afterDeployHandlers: DeployEventHandler[] = [];
     private readonly handlers: (() => void | Promise<void>)[] = [];
@@ -59,10 +73,47 @@ export abstract class PulumiApp<TConfig = unknown> {
 
     constructor(params: PulumiAppParams) {
         this.name = params.name;
-        this.ctx = params.ctx;
+        this.program = params.program;
+        this.config = params.config || {};
+
+        let projectRootPath = findUp.sync("webiny.project.ts");
+        if (projectRootPath) {
+            projectRootPath = path.dirname(projectRootPath).replace(/\\/g, "/");
+        } else {
+            throw new Error("Couldn't detect Webiny project.");
+        }
+
+        const appRelativePath = params.path;
+        const appRootPath = path.join(projectRootPath, appRelativePath);
+
+        this.paths = {
+            absolute: appRootPath,
+            relative: appRelativePath
+        };
+
+        this.run = { params: {} };
     }
 
-    public abstract setup(config: TConfig): Promise<void> | void;
+    // public run(config: TConfig): Promise<void> | void;
+
+    public async runProgram(params: Record<string, any>) {
+        this.run = { params };
+
+        this.program(this);
+
+        tagResources({
+            WbyProjectName: String(process.env["WEBINY_PROJECT_NAME"]),
+            WbyEnvironment: String(process.env["WEBINY_ENV"])
+        });
+
+        for (const handler of this.handlers) {
+            await handler();
+        }
+
+        this.run.params = {};
+
+        return this.outputs;
+    }
 
     public onResource(handler: ResourceHandler): void {
         this.resourceHandlers.push(handler);
@@ -128,7 +179,7 @@ export abstract class PulumiApp<TConfig = unknown> {
     public addModule<TModule>(def: PulumiAppModuleDefinition<TModule, void>): TModule;
 
     /**
-     * Registers an app module witin app.
+     * Registers an app module within app.
      * Allows to decompose application into smaller pieces.
      * Added module can be then retrieved with `getModule`.
      * @param def Module definition
@@ -200,55 +251,33 @@ export abstract class PulumiApp<TConfig = unknown> {
 
         return module;
     }
-
-    /** Internal usage only. */
-    public createController() {
-        return {
-            run: this.runProgram.bind(this),
-            deployFinished: this.deployFinished.bind(this)
-        };
-    }
-
-    private async runProgram() {
-        tagResources({
-            WbyProjectName: String(process.env["WEBINY_PROJECT_NAME"]),
-            WbyEnvironment: String(process.env["WEBINY_ENV"])
-        });
-
-        for (const handler of this.handlers) {
-            await handler();
-        }
-
-        return this.outputs;
-    }
-
-    private async deployFinished(params: DeployEventParams) {
-        for (const handler of this.afterDeployHandlers) {
-            await handler(params);
-        }
-    }
 }
 
-export interface CreateAppParams<TOutput extends Record<string, unknown>, TConfig = void> {
+export type PulumiProgram<TOutput> = (
+    params: Record<string, any>,
+    app: PulumiApp
+) => TOutput | Promise<TOutput>;
+
+export interface CreatePulumiAppParams<
+    TOutput extends Record<string, unknown> = Record<string, unknown>,
+    TConfig = void
+> {
     name: string;
-    config(app: PulumiApp, config: TConfig): TOutput | Promise<TOutput>;
+    path: string;
+    config?: Record<string, any>;
+    program(app: PulumiApp): TOutput | Promise<TOutput>;
 }
 
-export function defineApp<TOutput extends Record<string, unknown>, TConfig = void>(
-    params: CreateAppParams<TOutput, TConfig>
-) {
-    const appDef = class App extends PulumiApp<TConfig> {
-        constructor(ctx: ApplicationContext) {
-            super({ name: params.name, ctx: ctx });
-        }
-
-        public async setup(config: TConfig) {
-            const output = await params.config(this, config);
-            Object.assign(this, output);
-        }
+export interface DeployPulumiAppParams {
+    projectApplication: {
+        root: string;
     };
+}
 
-    return appDef as new (ctx: ApplicationContext) => PulumiApp<TConfig> & TOutput;
+export function createPulumiApp<TOutput extends Record<string, unknown>, TConfig = void>(
+    params: CreatePulumiAppParams<TOutput, TConfig>
+) {
+    return new PulumiApp(params);
 }
 
 function createConfigProxy<T extends object>(obj: T) {

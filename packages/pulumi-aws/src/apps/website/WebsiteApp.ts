@@ -2,7 +2,7 @@ import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 
 import {
-    defineApp,
+    createPulumiApp,
     ApplicationContext,
     createGenericApplication,
     mergeAppHooks,
@@ -29,8 +29,9 @@ export interface WebsiteAppConfig {
     vpc?: AppInput<boolean | undefined>;
 }
 
-export const WebsiteApp = defineApp({
+export const WebsiteApp = createPulumiApp({
     name: "Website",
+    path: 'sd',
     config(app, config: WebsiteAppConfig) {
         // Register storage output as a module available for all other modules
         const storage = app.addModule(StorageOutput);

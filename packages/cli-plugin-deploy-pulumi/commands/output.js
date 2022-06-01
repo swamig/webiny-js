@@ -5,7 +5,7 @@ const { getProjectApplication } = require("@webiny/cli/utils");
 
 module.exports = async (inputs, context) => {
     const { env, folder, json, variant } = inputs;
-    await loadEnvVariables(inputs, context);
+    await loadEnvVariables(inputs, context); // delete this? todo
 
     const cwd = process.cwd();
 
@@ -17,9 +17,7 @@ module.exports = async (inputs, context) => {
     // Will also install Pulumi, if not already installed.
     await login(projectApplication);
 
-    const pulumi = await getPulumi({
-        folder: inputs.folder
-    });
+    const pulumi = await getPulumi();
 
     const stackName = variant ? `${env}.${variant}` : env;
 
@@ -34,6 +32,7 @@ module.exports = async (inputs, context) => {
                 secretsProvider: PULUMI_SECRETS_PROVIDER
             },
             execa: {
+                cwd: projectApplication.paths.workspace,
                 env: {
                     PULUMI_CONFIG_PASSPHRASE
                 }
@@ -49,7 +48,7 @@ module.exports = async (inputs, context) => {
             args: {
                 json
             },
-            execa: { stdio: "inherit" }
+            execa: { cwd: projectApplication.paths.workspace, stdio: "inherit" }
         });
     }
 

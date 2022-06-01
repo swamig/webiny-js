@@ -1,4 +1,4 @@
-import { defineApp, createGenericApplication, ApplicationConfig } from "@webiny/pulumi-sdk";
+import { createPulumiApp, createGenericApplication, ApplicationConfig } from "@webiny/pulumi-sdk";
 
 import { createReactAppGateway, GatewayReactAppConfig } from "./GatewayReactApp";
 import { createLambdas } from "./GatewayLambdas";
@@ -10,8 +10,9 @@ export interface GatewayAppConfig {
     website?: GatewayReactAppConfig;
 }
 
-export const GatewayApp = defineApp({
+export const GatewayApp = createPulumiApp({
     name: "Gateway",
+    path: 'sd',
     config(app, config: GatewayAppConfig) {
         const lambdas = createLambdas(app);
 

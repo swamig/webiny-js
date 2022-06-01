@@ -36,7 +36,7 @@ export const ApiGraphql = defineAppModule({
                 memorySize: 512,
                 code: new pulumi.asset.AssetArchive({
                     ".": new pulumi.asset.FileArchive(
-                        path.join(app.ctx.appDir, "code/graphql/build")
+                        path.join(app.paths.absolute, "code/graphql/build")
                     )
                 }),
                 environment: {
@@ -66,7 +66,7 @@ export const ApiGraphql = defineAppModule({
                     .apply(key => key || "SK"),
                 item: pulumi.interpolate`{
               "PK": {"S": "APW#SETTINGS"},
-              "SK": {"S": "${app.ctx.variant || "A"}"},
+              "SK": {"S": "${app.run.params.variant || "A"}"},
               "mainGraphqlFunctionArn": {"S": "${graphql.output.arn}"},
               "eventRuleName": {"S": "${params.apwSchedulerEventRule.name}"},
               "eventTargetId": {"S": "${params.apwSchedulerEventTarget.targetId}"}

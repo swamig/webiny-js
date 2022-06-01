@@ -89,15 +89,15 @@ const setupApwContext = (params: CreateApwContextParams) =>
 
 export default (params: CreateApwContextParams) => {
     return [
-        setupApwContext(params),
-        apwContentPagePlugins(),
-        apwHooks(),
-        createCustomAuth(params),
-
         new ContextPlugin((context: ApwContext) => {
             if (!context.wcp.canUseFeature("advancedPublishingWorkflow")) {
                 return;
             }
+
+            setupApwContext(params).apply(context);
+            apwContentPagePlugins().apply(context);
+            apwHooks().apply(context);
+            createCustomAuth(params).apply(context);
             context.plugins.register(extendPbPageSettingsSchema());
         })
     ];
