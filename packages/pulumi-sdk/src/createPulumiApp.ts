@@ -59,7 +59,7 @@ export interface PulumiApp<TPPRV = Record<string, unknown>> {
     paths: { absolute: string; relative: string };
     name: string;
     program: PulumiProgram<TPPRV>;
-    programReturnValue: TPPRV;
+    programReturnValue: Function & TPPRV;
     config: Record<string, any>;
     run: { params: Record<string, any> };
 
@@ -114,16 +114,16 @@ export function createPulumiApp<TPPRV extends Record<string, unknown>>(
             relative: appRelativePath
         },
 
+        programReturnValue: () => {},
         name: params.name,
         program: params.program,
-        programReturnValue: typeof params['program'],
         config: params.config || {},
         run: { params: {} },
 
         async runProgram(params) {
             app.run.params = params;
 
-            app.programReturnValue = await app.program(app);
+            Object.assign(app.programReturnValue, await app.program(app))
 
             tagResources({
                 WbyProjectName: String(process.env["WEBINY_PROJECT_NAME"]),
