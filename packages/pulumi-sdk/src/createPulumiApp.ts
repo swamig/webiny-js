@@ -1,5 +1,4 @@
 import * as pulumi from "@pulumi/pulumi";
-
 import { PulumiAppModuleDefinition } from "./PulumiAppModule";
 import { ResourceArgs, ResourceConstructor, ResourceType } from "./PulumiResource";
 import { tagResources } from "./utils";
@@ -39,18 +38,18 @@ export interface ResourceConfigModifier<T> {
 export type PulumiAppInputCallback<T> = (app: PulumiApp) => T;
 export type PulumiAppInput<T> = T | PulumiAppInputCallback<T>;
 
-export type PulumiProgram<TPPRV = Record<string, any>> = (
+export type PulumiProgram<TResources = Record<string, any>> = (
     app: PulumiApp
-) => TPPRV | Promise<TPPRV>;
+) => TResources | Promise<TResources>;
 
-export interface CreatePulumiAppParams<TPPRV extends Record<string, unknown>> {
+export interface CreatePulumiAppParams<TResources extends Record<string, unknown>> {
     name: string;
     path: string;
     config?: Record<string, any>;
-    program(app: PulumiApp): TPPRV | Promise<TPPRV>;
+    program(app: PulumiApp): TResources | Promise<TResources>;
 }
 
-export interface PulumiApp<TPPRV = Record<string, unknown>> {
+export interface PulumiApp<TResources = Record<string, unknown>> {
     resourceHandlers: ResourceHandler[];
     handlers: (() => void | Promise<void>)[];
     outputs: Record<string, any>;
@@ -58,15 +57,20 @@ export interface PulumiApp<TPPRV = Record<string, unknown>> {
 
     paths: { absolute: string; relative: string };
     name: string;
-    program: PulumiProgram<TPPRV>;
-    programReturnValue: Function & TPPRV;
+    program: PulumiProgram<TResources>;
+    resources: TResources;
     config: Record<string, any>;
     run: { params: Record<string, any> };
 
     runProgram(params: Record<string, any>): Record<string, any>;
 
     onResource(handler: ResourceHandler): void;
-    addResource<T extends ResourceConstructor>(ctor: T, params: CreateResourceParams<T>): void;
+
+    addResource<T extends ResourceConstructor>(
+        ctor: T,
+        params: CreateResourceParams<T>
+    ): PulumiAppResource<T>;
+
     addOutput<T>(name: string, output: T): void;
     addOutputs(outputs: Record<string, unknown>): void;
 
@@ -86,14 +90,14 @@ export interface PulumiApp<TPPRV = Record<string, unknown>> {
         opts: { optional: true }
     ): TModule | null;
 
-    addHandler<T>(handler: () => Promise<T> | T): void;
+    addHandler<T>(handler: () => Promise<T> | T): T;
 
     getInput<T>(input: T | ((app: PulumiApp) => T)): T;
 }
 
-export function createPulumiApp<TPPRV extends Record<string, unknown>>(
-    params: CreatePulumiAppParams<TPPRV>
-): PulumiApp<TPPRV> {
+export function createPulumiApp<TResources extends Record<string, unknown>>(
+    params: CreatePulumiAppParams<TResources>
+): PulumiApp<TResources> {
     let projectRootPath = findUp.sync("webiny.project.ts");
     if (projectRootPath) {
         projectRootPath = path.dirname(projectRootPath).replace(/\\/g, "/");
@@ -104,7 +108,7 @@ export function createPulumiApp<TPPRV extends Record<string, unknown>>(
     const appRelativePath = params.path;
     const appRootPath = path.join(projectRootPath, appRelativePath);
 
-    const app: PulumiApp<TPPRV> = {
+    const app: PulumiApp<TResources> = {
         resourceHandlers: [],
         handlers: [],
         outputs: {},
@@ -114,7 +118,7 @@ export function createPulumiApp<TPPRV extends Record<string, unknown>>(
             relative: appRelativePath
         },
 
-        programReturnValue: () => {},
+        resources: {} as TResources,
         name: params.name,
         program: params.program,
         config: params.config || {},
@@ -123,7 +127,7 @@ export function createPulumiApp<TPPRV extends Record<string, unknown>>(
         async runProgram(params) {
             app.run.params = params;
 
-            Object.assign(app.programReturnValue, await app.program(app))
+            Object.assign(app.resources, await app.program(app));
 
             tagResources({
                 WbyProjectName: String(process.env["WEBINY_PROJECT_NAME"]),
@@ -207,7 +211,7 @@ export function createPulumiApp<TPPRV extends Record<string, unknown>>(
                 );
             }
 
-            const createdModule = module.run(this, config as TConfig);
+            const createdModule = module.run(app, config as TConfig);
             app.modules.set(module.symbol, createdModule);
 
             return createdModule;
@@ -242,7 +246,7 @@ export function createPulumiApp<TPPRV extends Record<string, unknown>>(
          * @param handler Handler to be executed.
          * @returns Result of the handler wrapped with pulumi.Output
          */
-        addHandler<T>(handler: () => Promise<T> | T) {
+        addHandler<T>(handler: () => Promise<T> | T): T {
             const promise = new Promise<T>(resolve => {
                 app.handlers.push(async () => {
                     resolve(await handler());
