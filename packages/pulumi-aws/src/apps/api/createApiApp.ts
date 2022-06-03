@@ -1,4 +1,4 @@
-import { createPulumiApp, PulumiApp, PulumiAppInput, PulumiProgram } from "@webiny/pulumi-sdk";
+import { createPulumiApp, PulumiApp, PulumiAppInput } from "@webiny/pulumi-sdk";
 import {
     ApiGateway,
     ApiApwScheduler,
@@ -19,7 +19,7 @@ export interface CreateApiAppConfig {
     vpc?: PulumiAppInput<boolean>;
 
     /** Custom domain configuration */
-    domain?: PulumiAppInput<CustomDomainParams>;
+    domain?(app: PulumiApp): CustomDomainParams | undefined | void;
 
     pulumi?: ReturnType<typeof createProgram>;
 }
@@ -57,7 +57,6 @@ const createProgram = (projectAppConfig: CreateApiAppConfig) => async (app: Pulu
 
     // Register VPC config module to be available to other modules
     app.addModule(VpcConfig, {
-        // enabled: getAppInput(app, config.vpc)
         enabled: app.getInput(projectAppConfig.vpc)
     });
 
@@ -165,10 +164,10 @@ const createProgram = (projectAppConfig: CreateApiAppConfig) => async (app: Pulu
 
     const cloudfront = app.addModule(ApiCloudfront);
 
-    // const domain = config.domain?.(app.ctx);
-    // if (domain) {
-    //     applyCustomDomain(cloudfront, domain);
-    // }
+    const domain = projectAppConfig.domain?.(app);
+    if (domain) {
+        applyCustomDomain(cloudfront, domain);
+    }
 
     app.addOutputs({
         region: process.env.AWS_REGION,
@@ -185,6 +184,7 @@ const createProgram = (projectAppConfig: CreateApiAppConfig) => async (app: Pulu
         dynamoDbElasticsearchTable: storage.elasticsearchDynamodbTableName
     });
 
+    // TODO: finish Staged Deployments
     // Update variant gateway configuration.
     // const variant = app.ctx.variant;
     // if (variant) {
@@ -215,5 +215,4 @@ const createProgram = (projectAppConfig: CreateApiAppConfig) => async (app: Pulu
     };
 };
 
-const aa = createApiApp()
-aa.pulumi.resources.graphql.functions.graphql.config.name('ssd')
+const api = createApiApp({})
