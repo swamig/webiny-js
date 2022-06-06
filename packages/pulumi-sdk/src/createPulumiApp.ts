@@ -253,6 +253,7 @@ export function createPulumiApp<TResources extends Record<string, unknown>>(
                 });
             });
 
+            // @ts-ignore
             return pulumi.output(promise);
         },
 
