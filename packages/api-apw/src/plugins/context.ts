@@ -18,10 +18,6 @@ import { apwContentPagePlugins } from "~/plugins/pageBuilder/apwContentPagePlugi
 
 const setupApwContext = (params: CreateApwContextParams) =>
     new ContextPlugin<ApwContext>(async context => {
-        if (!context.wcp.canUseFeature("advancedPublishingWorkflow")) {
-            return;
-        }
-
         const { tenancy, security, i18n, handlerClient } = context;
 
         if (isInstallationPending({ tenancy, i18n })) {
@@ -88,17 +84,16 @@ const setupApwContext = (params: CreateApwContextParams) =>
     });
 
 export default (params: CreateApwContextParams) => {
-    return [
-        new ContextPlugin((context: ApwContext) => {
-            if (!context.wcp.canUseFeature("advancedPublishingWorkflow")) {
-                return;
-            }
+    return new ContextPlugin(async (context: ApwContext) => {
+        if (!context.wcp.canUseFeature("advancedPublishingWorkflow")) {
+            return;
+        }
 
-            setupApwContext(params).apply(context);
-            apwContentPagePlugins().apply(context);
-            apwHooks().apply(context);
-            createCustomAuth(params).apply(context);
-            context.plugins.register(extendPbPageSettingsSchema());
-        })
-    ];
+        await setupApwContext(params).apply(context);
+        await apwContentPagePlugins().apply(context);
+        await apwHooks().apply(context);
+        await createCustomAuth(params).apply(context);
+
+        context.plugins.register(extendPbPageSettingsSchema());
+    });
 };
