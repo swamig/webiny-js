@@ -1,4 +1,5 @@
 const os = require("os");
+const fs = require("fs");
 const chalk = require("chalk");
 const path = require("path");
 const localtunnel = require("localtunnel");
@@ -23,6 +24,8 @@ const {
 // Do not allow watching "prod" and "production" environments. On the Pulumi CLI side, the command
 // is still in preview mode, so it's definitely not wise to use it on production environments.
 const WATCH_DISABLED_ENVIRONMENTS = ["prod", "production"];
+
+const PULUMI_WATCH_SUPPORTED = os.platform() !== "win32";
 
 module.exports = async (inputs, context) => {
     // 1. Initial checks for deploy and build commands.
@@ -85,7 +88,12 @@ module.exports = async (inputs, context) => {
         await login(projectApplication);
 
         const pulumi = await getPulumi({
-            folder: inputs.folder
+            execa: {
+                cwd:
+                    projectApplication.type === "v5-workspaces"
+                        ? projectApplication.paths.workspace
+                        : projectApplication.paths.absolute
+            }
         });
 
         let stackExists = true;
@@ -184,8 +192,6 @@ module.exports = async (inputs, context) => {
                 message: chalk.green("Watching cloud infrastructure resources...")
             });
 
-            const pulumiFolder = path.join(projectApplication.root, "pulumi");
-
             const buildFoldersGlob = [
                 projectApplication.project.root,
                 inputs.folder,
@@ -196,7 +202,15 @@ module.exports = async (inputs, context) => {
 
             // The final array of values that will be sent to Pulumi CLI's "--path" argument.
             // NOTE: for Windows, there's a bug in Pulumi preventing us to use path filtering.
-            const pathArg = os.platform() === "win32" ? undefined : [pulumiFolder, ...buildFolders];
+            let pathArg = undefined;
+            if (PULUMI_WATCH_SUPPORTED) {
+                pathArg = [...buildFolders];
+
+                const pulumiFolder = path.join(projectApplication.root, "pulumi");
+                if (fs.existsSync(pulumiFolder)) {
+                    pathArg.push(pulumiFolder);
+                }
+            }
 
             // Log used values if debugging has been enabled.
             if (inputs.debug) {
@@ -214,7 +228,12 @@ module.exports = async (inputs, context) => {
             }
 
             const pulumi = await getPulumi({
-                folder: inputs.folder
+                execa: {
+                    cwd:
+                        projectApplication.type === "v5-workspaces"
+                            ? projectApplication.paths.workspace
+                            : projectApplication.paths.absolute
+                }
             });
 
             // We only watch "code/**/build" and "pulumi" folders.
