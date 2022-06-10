@@ -70,7 +70,7 @@ function createUpdateSettingsResources(app: PulumiApp, params: PageBuilderParams
             }),
             environment: {
                 variables: {
-                    ...getCommonLambdaEnvVariables(app),
+                    ...getCommonLambdaEnvVariables(),
                     ...params.env
                 }
             },
@@ -145,7 +145,7 @@ function createExportPagesResources(app: PulumiApp, params: PageBuilderParams) {
             }),
             environment: {
                 variables: {
-                    ...getCommonLambdaEnvVariables(app),
+                    ...getCommonLambdaEnvVariables(),
                     ...params.env,
                     S3_BUCKET: storage.fileManagerBucketId
                 }
@@ -169,7 +169,7 @@ function createExportPagesResources(app: PulumiApp, params: PageBuilderParams) {
             }),
             environment: {
                 variables: {
-                    ...getCommonLambdaEnvVariables(app),
+                    ...getCommonLambdaEnvVariables(),
                     ...params.env,
                     S3_BUCKET: storage.fileManagerBucketId,
                     EXPORT_PAGE_COMBINE_HANDLER: combine.output.arn
@@ -270,7 +270,7 @@ function createImportPagesResources(app: PulumiApp, params: PageBuilderParams) {
             }),
             environment: {
                 variables: {
-                    ...getCommonLambdaEnvVariables(app),
+                    ...getCommonLambdaEnvVariables(),
                     ...params.env,
                     S3_BUCKET: storage.fileManagerBucketId
                 }
@@ -294,7 +294,7 @@ function createImportPagesResources(app: PulumiApp, params: PageBuilderParams) {
             }),
             environment: {
                 variables: {
-                    ...getCommonLambdaEnvVariables(app),
+                    ...getCommonLambdaEnvVariables(),
                     ...params.env,
                     S3_BUCKET: storage.fileManagerBucketId,
                     IMPORT_PAGE_QUEUE_PROCESS_HANDLER: process.output.arn

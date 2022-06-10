@@ -66,7 +66,7 @@ export function createLambdaRole(app: PulumiApp, params: LambdaRoleParams) {
     return role;
 }
 
-export function getCommonLambdaEnvVariables(app: PulumiApp) {
+export function getCommonLambdaEnvVariables() {
     // Apart from a couple of basic environment variables like STAGED_ROLLOUTS_VARIANT and DEBUG,
     // we also take into consideration variables that have `WEBINY_` and `WCP_` prefix in their names.
     const envVars: Record<string, string> = Object.keys(process.env).reduce(

@@ -44,12 +44,10 @@ module.exports = args => {
         projectAppRelativePath
     );
 
-    // If we have `pulumi/index.ts` file in a project application, that means we're
-    // dealing with old project applications where all of the Pulumi code is located
-    // in user's project. New projects applications have this code abstracted away.
-    const type = fs.existsSync(join(projectAppRootPath, "pulumi", "index.ts"))
-        ? "v5"
-        : "v5-workspaces";
+    // If we're missing the `pulumi` property in the `applicationConfig` object, that
+    // means we're dealing with an old project application where all of the Pulumi code is
+    // located in user's project. New projects applications have this code abstracted away.
+    const type = applicationConfig.pulumi ? "v5-workspaces" : "v5";
 
     return {
         id,

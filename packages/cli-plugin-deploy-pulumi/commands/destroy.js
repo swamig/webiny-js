@@ -1,8 +1,13 @@
 const path = require("path");
 const { red, green } = require("chalk");
 const { getProjectApplication } = require("@webiny/cli/utils");
-
-const { loadEnvVariables, getPulumi, processHooks, login } = require("../utils");
+const {
+    loadEnvVariables,
+    getPulumi,
+    processHooks,
+    login,
+    createProjectApplicationWorkspace
+} = require("../utils");
 
 module.exports = async (inputs, context) => {
     const { env, folder } = inputs;
@@ -14,13 +19,23 @@ module.exports = async (inputs, context) => {
 
     await loadEnvVariables(inputs, context);
 
-    const pulumi = await getPulumi({
-        folder: inputs.folder
-    });
-
     // Get project application metadata.
     const projectApplication = getProjectApplication({
         cwd: path.join(process.cwd(), inputs.folder)
+    });
+
+    // If needed, let's create a project application workspace.
+    if (projectApplication.type === "v5-workspaces") {
+        await createProjectApplicationWorkspace(projectApplication, { env });
+    }
+
+    const pulumi = await getPulumi({
+        execa: {
+            cwd:
+                projectApplication.type === "v5-workspaces"
+                    ? projectApplication.paths.workspace
+                    : projectApplication.paths.absolute
+        }
     });
 
     await login(projectApplication);
@@ -59,7 +74,8 @@ module.exports = async (inputs, context) => {
     await pulumi.run({
         command: "destroy",
         args: {
-            debug: inputs.debug
+            debug: inputs.debug,
+            yes: true
         },
         execa: {
             stdio: "inherit",
@@ -67,9 +83,6 @@ module.exports = async (inputs, context) => {
                 WEBINY_ENV: env,
                 WEBINY_PROJECT_NAME: context.project.name
             }
-        },
-        args: {
-            yes: true
         }
     });
 

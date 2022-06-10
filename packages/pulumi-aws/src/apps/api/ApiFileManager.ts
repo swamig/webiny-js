@@ -39,7 +39,7 @@ export const ApiFileManager = defineAppModule({
                 layers: [getLayerArn("sharp")],
                 environment: {
                     variables: {
-                        ...getCommonLambdaEnvVariables(app),
+                        ...getCommonLambdaEnvVariables(),
                         S3_BUCKET: storage.fileManagerBucketId
                     }
                 },
@@ -63,7 +63,7 @@ export const ApiFileManager = defineAppModule({
                 }),
                 environment: {
                     variables: {
-                        ...getCommonLambdaEnvVariables(app),
+                        ...getCommonLambdaEnvVariables(),
                         S3_BUCKET: storage.fileManagerBucketId
                     }
                 },
@@ -87,7 +87,7 @@ export const ApiFileManager = defineAppModule({
                 }),
                 environment: {
                     variables: {
-                        ...getCommonLambdaEnvVariables(app),
+                        ...getCommonLambdaEnvVariables(),
                         S3_BUCKET: storage.fileManagerBucketId,
                         IMAGE_TRANSFORMER_FUNCTION: transform.output.arn
                     }

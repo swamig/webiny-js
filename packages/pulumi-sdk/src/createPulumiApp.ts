@@ -90,7 +90,7 @@ export interface PulumiApp<TResources = Record<string, unknown>> {
         opts: { optional: true }
     ): TModule | null;
 
-    addHandler<T>(handler: () => Promise<T> | T): T;
+    addHandler<T>(handler: () => Promise<T> | T): pulumi.Output<pulumi.Unwrap<T>>;
 
     getInput<T>(input: T | ((app: PulumiApp) => T)): T;
 }
@@ -246,14 +246,13 @@ export function createPulumiApp<TResources extends Record<string, unknown>>(
          * @param handler Handler to be executed.
          * @returns Result of the handler wrapped with pulumi.Output
          */
-        addHandler<T>(handler: () => Promise<T> | T): T {
+        addHandler<T>(handler: () => Promise<T> | T) {
             const promise = new Promise<T>(resolve => {
                 app.handlers.push(async () => {
                     resolve(await handler());
                 });
             });
 
-            // @ts-ignore
             return pulumi.output(promise);
         },
 

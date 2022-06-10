@@ -59,7 +59,7 @@ function createRenderSubscriber(
             memorySize: 512,
             environment: {
                 variables: {
-                    ...getCommonLambdaEnvVariables(app),
+                    ...getCommonLambdaEnvVariables(),
                     ...params.env,
                     SQS_QUEUE: queue.url
                 }
@@ -67,7 +67,7 @@ function createRenderSubscriber(
             description: "Subscribes to render events on event bus",
             code: new pulumi.asset.AssetArchive({
                 ".": new pulumi.asset.FileArchive(
-                    path.join(app.ctx.appDir, "prerendering/subscribe/build")
+                    path.join(app.paths.absolute, "prerendering/subscribe/build")
                 )
             }),
             vpcConfig: app.getModule(VpcConfig).functionVpcConfig
@@ -136,14 +136,14 @@ function createRenderer(
             layers: [getLayerArn("shelf-io-chrome-aws-lambda-layer")],
             environment: {
                 variables: {
-                    ...getCommonLambdaEnvVariables(app),
+                    ...getCommonLambdaEnvVariables(),
                     ...params.env
                 }
             },
             description: "Renders pages and stores output in an S3 bucket of choice.",
             code: new pulumi.asset.AssetArchive({
                 ".": new pulumi.asset.FileArchive(
-                    path.join(app.ctx.appDir, "prerendering/render/build")
+                    path.join(app.paths.absolute, "prerendering/render/build")
                 )
             }),
             vpcConfig: app.getModule(VpcConfig).functionVpcConfig
@@ -190,14 +190,14 @@ function createFlushService(
             memorySize: 512,
             environment: {
                 variables: {
-                    ...getCommonLambdaEnvVariables(app),
+                    ...getCommonLambdaEnvVariables(),
                     ...params.env
                 }
             },
             description: "Subscribes to fluhs events on event bus",
             code: new pulumi.asset.AssetArchive({
                 ".": new pulumi.asset.FileArchive(
-                    path.join(app.ctx.appDir, "prerendering/flush/build")
+                    path.join(app.paths.absolute, "prerendering/flush/build")
                 )
             }),
             vpcConfig: app.getModule(VpcConfig).functionVpcConfig

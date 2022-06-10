@@ -30,7 +30,6 @@ export function createApiApp(projectAppConfig: CreateApiAppConfig = {}) {
         name: "API",
         description:
             "Represents cloud infrastructure needed for supporting your project's (GraphQL) API.",
-        path: "api",
         cli: {
             // Default args for the "yarn webiny watch ..." command.
             watch: {
@@ -220,9 +219,3 @@ const createApiPulumiApp = (projectAppConfig: CreateApiAppConfig) => {
 
     return app;
 };
-
-createApiApp({
-    pulumi: app => {
-        app.resources.graphql.functions.graphql.config.name("sd");
-    }
-});

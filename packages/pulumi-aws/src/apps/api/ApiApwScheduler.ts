@@ -115,7 +115,7 @@ function createExecuteActionLambda(app: PulumiApp, params: ScheduleActionParams)
             }),
             environment: {
                 variables: {
-                    ...getCommonLambdaEnvVariables(app),
+                    ...getCommonLambdaEnvVariables(),
                     ...params.env
                 }
             }
@@ -217,7 +217,7 @@ function createScheduleActionLambda(
             }),
             environment: {
                 variables: {
-                    ...getCommonLambdaEnvVariables(app),
+                    ...getCommonLambdaEnvVariables(),
                     ...params.env,
                     APW_SCHEDULER_EXECUTE_ACTION_HANDLER: executeLambda.arn
                     // RULE_NAME: this.eventRule.name.apply(name => name),

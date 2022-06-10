@@ -1,4 +1,5 @@
 const { tagResources } = require("@webiny/pulumi-sdk");
+const createProjectApplicationWorkspace = require("./createProjectApplicationWorkspace");
 const getPulumi = require("./getPulumi");
 const getStackOutput = require("./getStackOutput");
 const crawlDirectory = require("./crawlDirectory");
@@ -19,5 +20,6 @@ module.exports = {
     processHooks,
     notify,
     login,
-    getRandomColorForString
+    getRandomColorForString,
+    createProjectApplicationWorkspace,
 };

@@ -1,14 +1,15 @@
 const path = require("path");
 const { green } = require("chalk");
-const { loadEnvVariables, getPulumi, processHooks, login, notify } = require("../utils");
 const { getProjectApplication } = require("@webiny/cli/utils");
 const buildPackages = require("./deploy/buildPackages");
-
-const util = require("util");
-const fs = require("fs");
-const ncpBase = require("ncp");
-const ncp = util.promisify(ncpBase.ncp);
-const { replaceInPath } = require("replace-in-path");
+const {
+    loadEnvVariables,
+    getPulumi,
+    processHooks,
+    login,
+    notify,
+    createProjectApplicationWorkspace
+} = require("../utils");
 
 module.exports = async (inputs, context) => {
     const { env, folder, build, deploy } = inputs;
@@ -37,6 +38,11 @@ module.exports = async (inputs, context) => {
 
     // Get project application metadata. Will throw an error if invalid folder specified.
     const projectApplication = getProjectApplication({ cwd: path.join(process.cwd(), folder) });
+
+    // If needed, let's create a project application workspace.
+    if (projectApplication.type === "v5-workspaces") {
+        await createProjectApplicationWorkspace(projectApplication, { env });
+    }
 
     await loadEnvVariables(inputs, context);
 
@@ -77,27 +83,6 @@ module.exports = async (inputs, context) => {
                     : projectApplication.paths.absolute
         }
     });
-
-    if (projectApplication.type === "v5-workspaces") {
-        if (fs.existsSync(projectApplication.paths.workspace)) {
-            fs.rmdirSync(projectApplication.paths.workspace, { recursive: true });
-        }
-
-        await ncp(projectApplication.paths.absolute, projectApplication.paths.workspace);
-        await ncp(
-            path.join(__dirname, "deploy", "workspaceTemplate"),
-            projectApplication.paths.workspace
-        );
-
-        // Wait a bit and make sure the files are ready to have its content replaced.
-        await new Promise(resolve => setTimeout(resolve, 10));
-
-        replaceInPath(path.join(projectApplication.paths.workspace, "/**/*.*"), [
-            { find: "{PROJECT_ID}", replaceWith: projectApplication.id },
-            { find: "{PROJECT_DESCRIPTION}", replaceWith: projectApplication.description },
-            { find: "{DEPLOY_ENV}", replaceWith: env }
-        ]);
-    }
 
     const PULUMI_SECRETS_PROVIDER = process.env.PULUMI_SECRETS_PROVIDER;
     const PULUMI_CONFIG_PASSPHRASE = process.env.PULUMI_CONFIG_PASSPHRASE;

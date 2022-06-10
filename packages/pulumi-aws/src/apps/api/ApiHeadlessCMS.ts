@@ -37,7 +37,7 @@ export const ApiHeadlessCMS = defineAppModule({
                 }),
                 environment: {
                     variables: {
-                        ...getCommonLambdaEnvVariables(app),
+                        ...getCommonLambdaEnvVariables(),
                         ...params.env,
                         AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
                     }

@@ -1,6 +1,8 @@
 export * from "./storage";
 export * from "./api";
-export * from "./admin/AdminApp";
-export * from "./website/WebsiteApp";
-export * from "./gateway/GatewayApp";
+export * from "./admin";
+export * from "./website";
 export { CustomDomainParams } from "./customDomain";
+
+// TODO: finish staged deployments.
+// export * from "./gateway/GatewayApp";

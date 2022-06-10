@@ -1,5 +1,5 @@
 import { ApplicationHook } from "./ApplicationHook";
-import { PulumiApp } from "./PulumiApp";
+import { PulumiApp } from "./createPulumiApp";
 
 export interface ApplicationContext {
     env: string;

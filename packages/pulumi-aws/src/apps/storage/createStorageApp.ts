@@ -1,5 +1,5 @@
-import { createPulumiApp, PulumiApp } from "@webiny/pulumi-sdk";
-import { AppInput, getPulumiAppInput } from "../utils";
+import { createPulumiApp } from "@webiny/pulumi-sdk";
+import { PulumiAppInput, getPulumiAppInput } from "../utils";
 import { StorageCognito } from "./StorageCognito";
 import { StorageDynamo } from "./StorageDynamo";
 import { ElasticSearch } from "./StorageElasticSearch";
@@ -12,55 +12,52 @@ export interface CreateStorageAppConfig {
      * Secures against deleting database by accident.
      * By default enabled in production environments.
      */
-    protect?: AppInput<boolean>;
+    protect?: PulumiAppInput<boolean>;
     /**
      * Enables ElasticSearch infrastructure.
      * Note that it requires also changes in application code.
      */
-    elasticSearch?: AppInput<boolean>;
+    elasticSearch?: PulumiAppInput<boolean>;
     /**
      * Enables VPC for the application.
      * By default enabled in production environments.
      */
-    vpc?: AppInput<boolean>;
+    vpc?: PulumiAppInput<boolean>;
     /**
      * Additional settings for backwards compatibility.
      */
-    legacy?: AppInput<StorageAppLegacyConfig>;
+    legacy?: PulumiAppInput<StorageAppLegacyConfig>;
 }
 
 export interface StorageAppLegacyConfig {
     useEmailAsUsername?: boolean;
 }
 
-export interface CreateProjectAppParams {
-    id: string;
-    name: string;
-    description: string;
-    path: string;
-    cli?: Record<string, any>;
-    pulumi: PulumiApp;
-}
-
-export interface ProjectApp {
-    id: string;
-    name: string;
-    description: string;
-    path: string;
-    cli?: Record<string, any>;
-    pulumi: PulumiApp;
-}
-
-function createProjectApp(params: CreateProjectAppParams): ProjectApp {
-    return { ...params };
-}
+// export interface CreateProjectAppParams {
+//     id: string;
+//     name: string;
+//     description: string;
+//     cli?: Record<string, any>;
+//     pulumi: PulumiApp;
+// }
+//
+// export interface ProjectApp {
+//     id: string;
+//     name: string;
+//     description: string;
+//     cli?: Record<string, any>;
+//     pulumi: PulumiApp;
+// }
+//
+// function createProjectApp(params: CreateProjectAppParams): ProjectApp {
+//     return { ...params };
+// }
 
 export function createStorageApp(projectAppConfig?: CreateStorageAppConfig) {
-    return createProjectApp({
+    return {
         id: "storage",
         name: "Storage",
         description: "Your project's persistent storages.",
-        path: "apps/storage",
         pulumi: createPulumiApp({
             name: "storage",
             path: "apps/storage",
@@ -118,5 +115,5 @@ export function createStorageApp(projectAppConfig?: CreateStorageAppConfig) {
                 };
             }
         })
-    });
+    };
 }

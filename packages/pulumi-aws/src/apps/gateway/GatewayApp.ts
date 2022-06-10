@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createPulumiApp, createGenericApplication, ApplicationConfig } from "@webiny/pulumi-sdk";
 
 import { createReactAppGateway, GatewayReactAppConfig } from "./GatewayReactApp";

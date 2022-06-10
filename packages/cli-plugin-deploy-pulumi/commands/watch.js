@@ -4,7 +4,6 @@ const path = require("path");
 const localtunnel = require("localtunnel");
 const express = require("express");
 const bodyParser = require("body-parser");
-const { login, getPulumi, loadEnvVariables, getRandomColorForString } = require("../utils");
 const { getProjectApplication } = require("@webiny/cli/utils");
 const get = require("lodash/get");
 const merge = require("lodash/merge");
@@ -13,6 +12,13 @@ const terminalOutput = require("./watch/output/terminalOutput");
 const minimatch = require("minimatch");
 const glob = require("fast-glob");
 const watchPackages = require("./watch/watchPackages");
+const {
+    login,
+    getPulumi,
+    loadEnvVariables,
+    getRandomColorForString,
+    createProjectApplicationWorkspace
+} = require("../utils");
 
 // Do not allow watching "prod" and "production" environments. On the Pulumi CLI side, the command
 // is still in preview mode, so it's definitely not wise to use it on production environments.
@@ -33,8 +39,13 @@ module.exports = async (inputs, context) => {
             cwd: path.join(process.cwd(), inputs.folder)
         });
 
-        // If exists - read default inputs from "webiny.application.js" file.
+        // If exists - read default inputs from "webiny.application.ts" file.
         inputs = merge({}, get(projectApplication, "config.cli.watch"), inputs);
+
+        // If needed, let's create a project application workspace.
+        if (projectApplication.type === "v5-workspaces") {
+            await createProjectApplicationWorkspace(projectApplication, { env: inputs.env });
+        }
 
         await loadEnvVariables(inputs, context);
     }

@@ -1,8 +1,13 @@
 const path = require("path");
 const { red } = require("chalk");
-const { login, getPulumi, loadEnvVariables } = require("../utils");
 const { getProjectApplication } = require("@webiny/cli/utils");
 const { getStackName } = require("@webiny/pulumi-sdk");
+const {
+    login,
+    getPulumi,
+    loadEnvVariables,
+    createProjectApplicationWorkspace
+} = require("../utils");
 
 module.exports = async (inputs, context) => {
     const [, ...command] = inputs._;
@@ -17,6 +22,11 @@ module.exports = async (inputs, context) => {
     const projectApplication = getProjectApplication({
         cwd: path.join(cwd, inputs.folder)
     });
+
+    // If needed, let's create a project application workspace.
+    if (projectApplication.type === "v5-workspaces") {
+        await createProjectApplicationWorkspace(projectApplication, { env });
+    }
 
     await login(projectApplication);
 
