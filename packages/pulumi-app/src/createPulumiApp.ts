@@ -1,6 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import { PulumiAppModuleDefinition } from "./PulumiAppModule";
-import { ResourceArgs, ResourceConstructor, ResourceType } from "./PulumiResource";
+import { ResourceArgs, ResourceConstructor, ResourceType } from "./PulumiAppResource";
 import findUp from "find-up";
 import path from "path";
 
