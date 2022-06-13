@@ -29,7 +29,6 @@ module.exports = async (inputs, context) => {
 
     const pulumi = await getPulumi({ projectApplication });
 
-    const stackName = variant ? `${env}.${variant}` : env;
 
     let stackExists = true;
     try {
@@ -37,7 +36,7 @@ module.exports = async (inputs, context) => {
         const PULUMI_CONFIG_PASSPHRASE = process.env.PULUMI_CONFIG_PASSPHRASE;
 
         await pulumi.run({
-            command: ["stack", "select", stackName],
+            command: ["stack", "select", env],
             args: {
                 secretsProvider: PULUMI_SECRETS_PROVIDER
             },
