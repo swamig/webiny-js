@@ -1,5 +1,5 @@
 {
-  "name": "@webiny/pulumi-aws",
+  "name": "@webiny/pulumi-app-aws",
   "version": "5.28.0",
   "main": "index.ts",
   "repository": {

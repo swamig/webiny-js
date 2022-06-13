@@ -1,6 +1,6 @@
 import App from "./app";
 import Delivery from "./delivery";
-import { tagResources } from "@webiny/pulumi-aws";
+import { tagResources } from "@webiny/pulumi-app-aws";
 
 export = async () => {
     // Add tags to all resources that support tagging.

@@ -43,7 +43,7 @@
     "@webiny/handler-http": "^5.28.0",
     "@webiny/handler-logs": "^5.28.0",
     "@webiny/project-utils": "^5.28.0",
-    "@webiny/pulumi-aws": "^5.28.0"
+    "@webiny/pulumi-app-aws": "^5.28.0"
   },
   "adio": {
     "ignore": {
@@ -52,7 +52,7 @@
         "@webiny/api-admin-users-cognito-so-ddb",
         "@webiny/api-security-cognito",
         "@webiny/api-security-okta",
-        "@webiny/pulumi-aws"
+        "@webiny/pulumi-app-aws"
       ],
       "src": [
         "@webiny/cli-plugin-deploy-pulumi",

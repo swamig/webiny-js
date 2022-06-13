@@ -5,7 +5,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.28.0](https://github.com/webiny/webiny-js/compare/v5.28.0-beta.0...v5.28.0) (2022-06-07)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -13,7 +13,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.28.0-beta.0](https://github.com/webiny/webiny-js/compare/v5.27.0...v5.28.0-beta.0) (2022-06-07)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -21,7 +21,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.27.0](https://github.com/webiny/webiny-js/compare/v5.27.0-beta.0...v5.27.0) (2022-05-26)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -29,7 +29,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.27.0-beta.0](https://github.com/webiny/webiny-js/compare/v5.26.1-beta.0...v5.27.0-beta.0) (2022-05-25)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -53,7 +53,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.26.0](https://github.com/webiny/webiny-js/compare/v5.26.0-beta.2...v5.26.0) (2022-05-13)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -61,7 +61,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.26.0-beta.2](https://github.com/webiny/webiny-js/compare/v5.26.0-beta.1...v5.26.0-beta.2) (2022-05-13)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -69,7 +69,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.26.0-beta.1](https://github.com/webiny/webiny-js/compare/v5.26.0-beta.0...v5.26.0-beta.1) (2022-05-12)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -77,7 +77,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.26.0-beta.0](https://github.com/webiny/webiny-js/compare/v5.25.1-beta.1...v5.26.0-beta.0) (2022-05-11)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -85,7 +85,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [5.25.1-beta.1](https://github.com/webiny/webiny-js/compare/v5.25.1-beta.0...v5.25.1-beta.1) (2022-05-11)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -96,8 +96,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **pulumi-aws:** add descriptive comments ([1144488](https://github.com/webiny/webiny-js/commit/114448804b6d89c73926a30871b5e8b1293324b0))
-* **pulumi-aws:** improve request.uri handling ([ef627e6](https://github.com/webiny/webiny-js/commit/ef627e60ce773bf54971803bc048ffa39d910161))
+* **pulumi-app-aws:** add descriptive comments ([1144488](https://github.com/webiny/webiny-js/commit/114448804b6d89c73926a30871b5e8b1293324b0))
+* **pulumi-app-aws:** improve request.uri handling ([ef627e6](https://github.com/webiny/webiny-js/commit/ef627e60ce773bf54971803bc048ffa39d910161))
 
 
 ### Features
@@ -113,7 +113,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.25.0](https://github.com/webiny/webiny-js/compare/v5.25.0-beta.6...v5.25.0) (2022-04-04)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -121,7 +121,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.25.0-beta.6](https://github.com/webiny/webiny-js/compare/v5.25.0-beta.5...v5.25.0-beta.6) (2022-04-01)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -129,7 +129,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.25.0-beta.5](https://github.com/webiny/webiny-js/compare/v5.25.0-beta.4...v5.25.0-beta.5) (2022-04-01)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -137,7 +137,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.25.0-beta.4](https://github.com/webiny/webiny-js/compare/v5.25.0-beta.3...v5.25.0-beta.4) (2022-03-31)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -145,7 +145,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.25.0-beta.3](https://github.com/webiny/webiny-js/compare/v5.25.0-beta.2...v5.25.0-beta.3) (2022-03-28)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -153,7 +153,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.25.0-beta.2](https://github.com/webiny/webiny-js/compare/v5.25.0-beta.1...v5.25.0-beta.2) (2022-03-21)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -161,7 +161,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.25.0-beta.1](https://github.com/webiny/webiny-js/compare/v5.25.0-beta.0...v5.25.0-beta.1) (2022-03-15)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -180,7 +180,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.24.0](https://github.com/webiny/webiny-js/compare/v5.24.0-beta.0...v5.24.0) (2022-03-03)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -188,7 +188,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.24.0-beta.0](https://github.com/webiny/webiny-js/compare/v5.23.1...v5.24.0-beta.0) (2022-03-02)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -196,7 +196,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [5.23.1](https://github.com/webiny/webiny-js/compare/v5.23.1-beta.0...v5.23.1) (2022-02-16)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -204,7 +204,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [5.23.1-beta.0](https://github.com/webiny/webiny-js/compare/v5.23.0...v5.23.1-beta.0) (2022-02-16)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -212,7 +212,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.23.0](https://github.com/webiny/webiny-js/compare/v5.23.0-beta.1...v5.23.0) (2022-02-15)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -220,7 +220,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.23.0-beta.1](https://github.com/webiny/webiny-js/compare/v5.23.0-beta.0...v5.23.0-beta.1) (2022-02-14)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -231,7 +231,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **pulumi-aws:** make sure S3 folder paths end with a trailing slash ([4042f86](https://github.com/webiny/webiny-js/commit/4042f8617e2d93a149efe0933877237c3be4bac9))
+* **pulumi-app-aws:** make sure S3 folder paths end with a trailing slash ([4042f86](https://github.com/webiny/webiny-js/commit/4042f8617e2d93a149efe0933877237c3be4bac9))
 
 
 
@@ -239,7 +239,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [5.22.1](https://github.com/webiny/webiny-js/compare/v5.22.1-beta.0...v5.22.1) (2022-01-29)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -247,7 +247,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [5.22.1-beta.0](https://github.com/webiny/webiny-js/compare/v5.22.0...v5.22.1-beta.0) (2022-01-29)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -255,7 +255,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.22.0](https://github.com/webiny/webiny-js/compare/v5.22.0-beta.3...v5.22.0) (2022-01-24)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -263,7 +263,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.22.0-beta.3](https://github.com/webiny/webiny-js/compare/v5.22.0-beta.2...v5.22.0-beta.3) (2022-01-21)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -282,7 +282,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.22.0-beta.1](https://github.com/webiny/webiny-js/compare/v5.22.0-beta.0...v5.22.0-beta.1) (2022-01-19)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -301,7 +301,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.21.0](https://github.com/webiny/webiny-js/compare/v5.21.0-beta.0...v5.21.0) (2022-01-04)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -309,7 +309,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.21.0-beta.0](https://github.com/webiny/webiny-js/compare/v5.20.0...v5.21.0-beta.0) (2022-01-03)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -317,7 +317,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.20.0](https://github.com/webiny/webiny-js/compare/v5.20.0-beta.2...v5.20.0) (2021-12-23)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -325,7 +325,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.20.0-beta.2](https://github.com/webiny/webiny-js/compare/v5.20.0-beta.1...v5.20.0-beta.2) (2021-12-21)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -333,7 +333,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.20.0-beta.1](https://github.com/webiny/webiny-js/compare/v5.20.0-beta.0...v5.20.0-beta.1) (2021-12-20)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -341,7 +341,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.20.0-beta.0](https://github.com/webiny/webiny-js/compare/v5.19.1...v5.20.0-beta.0) (2021-12-17)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -349,7 +349,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [5.19.1](https://github.com/webiny/webiny-js/compare/v5.19.1-beta.0...v5.19.1) (2021-12-14)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -357,7 +357,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [5.19.1-beta.0](https://github.com/webiny/webiny-js/compare/v5.19.0...v5.19.1-beta.0) (2021-12-14)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -365,7 +365,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.19.0](https://github.com/webiny/webiny-js/compare/v5.19.0-beta.6...v5.19.0) (2021-12-13)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -373,7 +373,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.19.0-beta.6](https://github.com/webiny/webiny-js/compare/v5.19.0-beta.5...v5.19.0-beta.6) (2021-12-13)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -381,7 +381,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.19.0-beta.5](https://github.com/webiny/webiny-js/compare/v5.19.0-beta.4...v5.19.0-beta.5) (2021-12-10)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -389,7 +389,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.19.0-beta.4](https://github.com/webiny/webiny-js/compare/v5.19.0-beta.3...v5.19.0-beta.4) (2021-12-09)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -397,7 +397,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.19.0-beta.3](https://github.com/webiny/webiny-js/compare/v5.19.0-beta.2...v5.19.0-beta.3) (2021-12-08)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -405,7 +405,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.19.0-beta.2](https://github.com/webiny/webiny-js/compare/v5.19.0-beta.1...v5.19.0-beta.2) (2021-12-06)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 
@@ -413,7 +413,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.19.0-beta.1](https://github.com/webiny/webiny-js/compare/v5.19.0-beta.0...v5.19.0-beta.1) (2021-12-06)
 
-**Note:** Version bump only for package @webiny/pulumi-aws
+**Note:** Version bump only for package @webiny/pulumi-app-aws
 
 
 

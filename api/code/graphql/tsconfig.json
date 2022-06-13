@@ -12,7 +12,7 @@
       "path": "../../../packages/api-apw/tsconfig.build.json"
     },
     {
-      "path": "../../../packages/pulumi-aws/tsconfig.build.json"
+      "path": "../../../packages/pulumi-app-aws/tsconfig.build.json"
     },
     {
       "path": "../../../packages/api-file-manager/tsconfig.build.json"
@@ -194,8 +194,8 @@
       "@webiny/handler-http": ["../../../packages/handler-http/src"],
       "@webiny/handler-logs/*": ["../../../packages/handler-logs/src/*"],
       "@webiny/handler-logs": ["../../../packages/handler-logs/src"],
-      "@webiny/pulumi-aws/*": ["../../../packages/pulumi-aws/src/*"],
-      "@webiny/pulumi-aws": ["../../../packages/pulumi-aws/src"]
+      "@webiny/pulumi-app-aws/*": ["../../../packages/pulumi-app-aws/src/*"],
+      "@webiny/pulumi-app-aws": ["../../../packages/pulumi-app-aws/src"]
     },
     "baseUrl": "."
   }
