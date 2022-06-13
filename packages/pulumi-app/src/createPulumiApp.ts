@@ -1,7 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import { PulumiAppModuleDefinition } from "./PulumiAppModule";
 import { ResourceArgs, ResourceConstructor, ResourceType } from "./PulumiResource";
-import { tagResources } from "./utils";
 import findUp from "find-up";
 import path from "path";
 
@@ -128,11 +127,6 @@ export function createPulumiApp<TResources extends Record<string, unknown>>(
             app.run.params = params;
 
             Object.assign(app.resources, await app.program(app));
-
-            tagResources({
-                WbyProjectName: String(process.env["WEBINY_PROJECT_NAME"]),
-                WbyEnvironment: String(process.env["WEBINY_ENV"])
-            });
 
             for (const handler of app.handlers) {
                 await handler();

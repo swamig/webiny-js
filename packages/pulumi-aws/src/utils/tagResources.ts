@@ -14,10 +14,6 @@ export function tagResources(tags: Record<string, string>) {
     });
 }
 
-module.exports = {
-    tagResources
-};
-
 /**
  * Returns true if the given resource type is an AWS resource that supports tags.
  */
