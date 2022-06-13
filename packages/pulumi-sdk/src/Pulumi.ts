@@ -5,17 +5,19 @@ import { merge, kebabCase, set } from "lodash";
 import downloadBinaries from "./downloadBinaries";
 
 type Command = string | string[];
-interface PulumiArgs {
+
+export interface PulumiArgs {
     [key: string]: string | boolean;
 }
-interface ExecaArgs {
+
+export interface ExecaArgs {
     env?: {
         [key: string]: string | undefined;
     };
     [key: string]: any;
 }
 
-interface Options {
+export interface Options {
     args?: PulumiArgs;
     execa?: ExecaArgs;
     beforePulumiInstall?: () => any;
@@ -27,7 +29,7 @@ interface Options {
     pulumiFolder?: string;
 }
 
-interface RunArgs {
+export interface RunArgs {
     command: Command;
     args?: PulumiArgs;
     execa?: ExecaArgs;
@@ -35,7 +37,7 @@ interface RunArgs {
     afterPulumiInstall?: () => any;
 }
 
-interface InstallArgs {
+export interface InstallArgs {
     beforePulumiInstall?: () => any;
     afterPulumiInstall?: () => any;
 }
