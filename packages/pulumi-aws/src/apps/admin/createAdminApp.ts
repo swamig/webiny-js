@@ -1,6 +1,7 @@
 import * as aws from "@pulumi/aws";
 
 import { createPulumiApp, PulumiApp } from "@webiny/pulumi-app";
+import { tagResources } from "~/utils";
 import { createPublicAppBucket } from "../createAppBucket";
 import { applyCustomDomain, CustomDomainParams } from "../customDomain";
 
@@ -82,22 +83,10 @@ const createApiPulumiApp = (projectAppConfig: CreateAdminAppConfig) => {
                 appUrl: cloudfront.output.domainName.apply(value => `https://${value}`)
             });
 
-            // TODO: finish Staged Deployments
-            // Update variant gateway configuration.
-            // const variant = app.ctx.variant;
-            // if (variant) {
-            //     app.onAfterDeploy(async ({ outputs }) => {
-            //         // After deployment is made we update a static JSON file with a variant configuration.
-            //         // TODO: We should update WCP config instead of a static file here
-            //         await updateGatewayConfig({
-            //             app: "admin",
-            //             cwd: app.ctx.projectDir,
-            //             env: app.ctx.env,
-            //             variant: variant,
-            //             domain: outputs["appDomain"]
-            //         });
-            //     });
-            // }
+            tagResources({
+                WbyProjectName: String(process.env["WEBINY_PROJECT_NAME"]),
+                WbyEnvironment: String(process.env["WEBINY_ENV"])
+            });
 
             return {
                 ...bucket,

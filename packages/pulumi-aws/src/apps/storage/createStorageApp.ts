@@ -6,6 +6,7 @@ import { ElasticSearch } from "./StorageElasticSearch";
 import { StorageEventBus } from "./StorageEventBus";
 import { StorageFileManger } from "./StorageFileManager";
 import { StorageVpc } from "./StorageVpc";
+import { tagResources } from "~/utils";
 
 export interface CreateStorageAppConfig {
     /**
@@ -81,6 +82,11 @@ export function createStorageApp(projectAppConfig?: CreateStorageAppConfig) {
                     cognitoUserPoolPasswordPolicy: cognito.userPool.output.passwordPolicy,
                     cognitoAppClientId: cognito.userPoolClient.output.id,
                     eventBusArn: eventBus.output.arn
+                });
+
+                tagResources({
+                    WbyProjectName: String(process.env["WEBINY_PROJECT_NAME"]),
+                    WbyEnvironment: String(process.env["WEBINY_ENV"])
                 });
 
                 return {

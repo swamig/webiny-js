@@ -7,6 +7,7 @@ import { PulumiAppInput } from "../utils";
 import { createPrerenderingService } from "./WebsitePrerendering";
 import { StorageOutput, VpcConfig } from "../common";
 import { getPulumiAppInput } from "../utils";
+import { tagResources } from "~/utils";
 
 export interface CreateWebsiteAppConfig {
     /** Custom domain configuration */
@@ -188,22 +189,10 @@ const createApiPulumiApp = (projectAppConfig: CreateWebsiteAppConfig) => {
                 deliveryUrl: deliveryCloudfront.output.domainName.apply(value => `https://${value}`)
             });
 
-            // TODO: finish Staged Deployments
-            // // Update variant gateway configuration.
-            // const variant = app.ctx.variant;
-            // if (variant) {
-            //     app.onAfterDeploy(async ({ outputs }) => {
-            //         // After deployment is made we update a static JSON file with a variant configuration.
-            //         // TODO: We should update WCP config instead of a static file here
-            //         await updateGatewayConfig({
-            //             app: "website",
-            //             cwd: app.ctx.projectDir,
-            //             env: app.ctx.env,
-            //             variant: variant,
-            //             domain: outputs["deliveryDomain"]
-            //         });
-            //     });
-            // }
+            tagResources({
+                WbyProjectName: String(process.env["WEBINY_PROJECT_NAME"]),
+                WbyEnvironment: String(process.env["WEBINY_ENV"])
+            });
 
             return {
                 prerendering,
