@@ -1,42 +1,37 @@
 import * as pulumi from "@pulumi/pulumi";
 
-export interface ResourceConstructor<T = any, TArgs = any> {
+export interface PulumiAppResourceConstructor<T = any, TArgs = any> {
     new (name: string, args: TArgs, opts?: pulumi.CustomResourceOptions): T;
 }
 
-export type ResourceType<T extends ResourceConstructor> = T extends ResourceConstructor<infer TType>
-    ? TType
-    : never;
+export type PulumiAppResourceType<T extends PulumiAppResourceConstructor> =
+    T extends PulumiAppResourceConstructor<infer TType> ? TType : never;
 
-export type ResourceArgs<T extends ResourceConstructor> = T extends ResourceConstructor<
-    any,
-    infer TArgs
->
-    ? Exclude<TArgs, undefined>
-    : never;
+export type PulumiAppResourceArgs<T extends PulumiAppResourceConstructor> =
+    T extends PulumiAppResourceConstructor<any, infer TArgs> ? Exclude<TArgs, undefined> : never;
 
-export interface CreateResourceParams<TCtor extends ResourceConstructor> {
+export interface CreatePulumiAppResourceParams<TCtor extends PulumiAppResourceConstructor> {
     name: string;
-    config: ResourceArgs<TCtor>;
+    config: PulumiAppResourceArgs<TCtor>;
     opts?: pulumi.CustomResourceOptions;
 }
 
-export interface ResourceConfigModifier<T> {
+export interface PulumiAppResourceConfigModifier<T> {
     (value: pulumi.Unwrap<T>): T | void;
 }
 
-export interface ResourceConfigSetter<T> {
+export interface PulumiAppResourceConfigSetter<T> {
     (value: T): void;
-    (fcn: ResourceConfigModifier<T>): void;
+    (fcn: PulumiAppResourceConfigModifier<T>): void;
 }
 
-export type ResourceConfigProxy<T extends object> = {
-    readonly [K in keyof T]-?: ResourceConfigSetter<T[K]>;
+export type PulumiAppResourceConfigProxy<T extends object> = {
+    readonly [K in keyof T]-?: PulumiAppResourceConfigSetter<T[K]>;
 };
 
-export interface PulumiAppResource<T extends ResourceConstructor> {
+export interface PulumiAppResource<T extends PulumiAppResourceConstructor> {
     name: string;
-    readonly config: ResourceConfigProxy<ResourceArgs<T>>;
+    readonly config: PulumiAppResourceConfigProxy<PulumiAppResourceArgs<T>>;
     readonly opts: pulumi.CustomResourceOptions;
-    readonly output: pulumi.Output<pulumi.Unwrap<ResourceType<T>>>;
+    readonly output: pulumi.Output<pulumi.Unwrap<PulumiAppResourceType<T>>>;
 }

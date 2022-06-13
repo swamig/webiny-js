@@ -1,20 +1,20 @@
 import * as pulumi from "@pulumi/pulumi";
 import { PulumiAppModuleDefinition } from "./PulumiAppModule";
 import {
-    ResourceArgs,
-    ResourceConstructor,
-    ResourceType,
+    PulumiAppResourceArgs,
+    PulumiAppResourceConstructor,
+    PulumiAppResourceType,
     PulumiAppResource,
-    CreateResourceParams,
-    ResourceConfigSetter,
-    ResourceConfigModifier,
-    ResourceConfigProxy
+    CreatePulumiAppResourceParams,
+    PulumiAppResourceConfigSetter,
+    PulumiAppResourceConfigModifier,
+    PulumiAppResourceConfigProxy
 } from "./PulumiAppResource";
 import findUp from "find-up";
 import path from "path";
 
 export interface ResourceHandler {
-    (resource: PulumiAppResource<ResourceConstructor>): void;
+    (resource: PulumiAppResource<PulumiAppResourceConstructor>): void;
 }
 
 export type PulumiAppInputCallback<T> = (app: PulumiApp) => T;
@@ -48,9 +48,9 @@ export interface PulumiApp<TResources = Record<string, unknown>> {
 
     onResource(handler: ResourceHandler): void;
 
-    addResource<T extends ResourceConstructor>(
+    addResource<T extends PulumiAppResourceConstructor>(
         ctor: T,
-        params: CreateResourceParams<T>
+        params: CreatePulumiAppResourceParams<T>
     ): PulumiAppResource<T>;
 
     addOutput<T>(name: string, output: T): void;
@@ -132,11 +132,11 @@ export function createPulumiApp<TResources extends Record<string, unknown>>(
          * @param params Parameters to configure the resource
          * @returns Object giving access to both resource outputs and its config.
          */
-        addResource<T extends ResourceConstructor>(ctor: T, params: CreateResourceParams<T>) {
-            const config = params.config ?? ({} as ResourceArgs<T>);
+        addResource<T extends PulumiAppResourceConstructor>(ctor: T, params: CreatePulumiAppResourceParams<T>) {
+            const config = params.config ?? ({} as PulumiAppResourceArgs<T>);
             const opts = params.opts ?? {};
 
-            const promise = new Promise<ResourceType<T>>(resolve => {
+            const promise = new Promise<PulumiAppResourceType<T>>(resolve => {
                 app.handlers.push(() => {
                     app.resourceHandlers.forEach(handler => handler(resourceInstance));
                     const resourceInstance = new ctor(resource.name, config, opts);
@@ -250,9 +250,9 @@ function createConfigProxy<T extends object>(obj: T) {
         get(target, p: string) {
             type V = T[keyof T];
             const key = p as keyof T;
-            const setter: ResourceConfigSetter<V> = (value: V | ResourceConfigModifier<V>) => {
+            const setter: PulumiAppResourceConfigSetter<V> = (value: V | PulumiAppResourceConfigModifier<V>) => {
                 if (typeof value === "function") {
-                    const modifier = value as ResourceConfigModifier<V>;
+                    const modifier = value as PulumiAppResourceConfigModifier<V>;
                     const currentValue = target[key];
                     // Wrap a current config with a function.
                     const newValue = pulumi.output(currentValue).apply(v => {
@@ -268,5 +268,5 @@ function createConfigProxy<T extends object>(obj: T) {
 
             return setter;
         }
-    }) as ResourceConfigProxy<T>;
+    }) as PulumiAppResourceConfigProxy<T>;
 }
