@@ -1,29 +1,22 @@
-import { Pulumi } from "@webiny/pulumi-sdk";
-
-interface StackOutput {
-    apiUrl: string;
-    region: string;
-    dynamoDbTable: string;
-    [key: string]: any;
-}
+import { Pulumi, Options } from "@webiny/pulumi-sdk";
 
 export function tagResources(tags: Record<string, string>): void;
 
 export function crawlDirectory(dir: string, callback: (path: string) => void): void;
 
-export function getStackOutput(
+export function getStackOutput<TStackOutput = Record<string, unknown>>(
     folder: string,
     env: string,
     map?: Record<string, string>
-): StackOutput;
+): TStackOutput;
 
-export function getStackOutput(options: {
+export function getStackOutput<TStackOutput = Record<string, unknown>>(options: {
     folder: string;
     env: string;
-    variant?: string;
+    // variant?: string; TODO: finish staged deployments.
     map?: Record<string, string>;
     cwd?: string;
-}): StackOutput;
+}): TStackOutput;
 
 interface GetPulumiParams {
     projectApplication?: Record<string, unknown>;
