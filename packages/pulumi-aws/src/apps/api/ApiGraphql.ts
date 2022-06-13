@@ -2,7 +2,7 @@ import path from "path";
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 
-import { defineAppModule, PulumiApp, PulumiAppModule } from "@webiny/pulumi-app";
+import { createAppModule, PulumiApp, PulumiAppModule } from "@webiny/pulumi-app";
 import { createLambdaRole, getCommonLambdaEnvVariables } from "../lambdaUtils";
 import { StorageOutput, VpcConfig } from "../common";
 import { getAwsAccountId, getAwsRegion } from "../awsUtils";
@@ -15,7 +15,7 @@ interface GraphqlParams {
 
 export type ApiGraphql = PulumiAppModule<typeof ApiGraphql>;
 
-export const ApiGraphql = defineAppModule({
+export const ApiGraphql = createAppModule({
     name: "ApiGraphql",
     config(app: PulumiApp, params: GraphqlParams) {
         const storage = app.getModule(StorageOutput);

@@ -1,37 +1,20 @@
 import * as pulumi from "@pulumi/pulumi";
 import { PulumiAppModuleDefinition } from "./PulumiAppModule";
-import { ResourceArgs, ResourceConstructor, ResourceType } from "./PulumiAppResource";
+import {
+    ResourceArgs,
+    ResourceConstructor,
+    ResourceType,
+    PulumiAppResource,
+    CreateResourceParams,
+    ResourceConfigSetter,
+    ResourceConfigModifier,
+    ResourceConfigProxy
+} from "./PulumiAppResource";
 import findUp from "find-up";
 import path from "path";
 
-export interface CreateResourceParams<TCtor extends ResourceConstructor> {
-    name: string;
-    config: ResourceArgs<TCtor>;
-    opts?: pulumi.CustomResourceOptions;
-}
-
-export interface PulumiAppResource<T extends ResourceConstructor> {
-    name: string;
-    readonly config: ResourceConfigProxy<ResourceArgs<T>>;
-    readonly opts: pulumi.CustomResourceOptions;
-    readonly output: pulumi.Output<pulumi.Unwrap<ResourceType<T>>>;
-}
-
 export interface ResourceHandler {
     (resource: PulumiAppResource<ResourceConstructor>): void;
-}
-
-export type ResourceConfigProxy<T extends object> = {
-    readonly [K in keyof T]-?: ResourceConfigSetter<T[K]>;
-};
-
-export interface ResourceConfigSetter<T> {
-    (value: T): void;
-    (fcn: ResourceConfigModifier<T>): void;
-}
-
-export interface ResourceConfigModifier<T> {
-    (value: pulumi.Unwrap<T>): T | void;
 }
 
 export type PulumiAppInputCallback<T> = (app: PulumiApp) => T;
@@ -61,7 +44,7 @@ export interface PulumiApp<TResources = Record<string, unknown>> {
     config: Record<string, any>;
     run: { params: Record<string, any> };
 
-    runProgram(params?: Record<string, any>): Record<string, any>;
+    runProgram(params: Record<string, any>): Record<string, any>;
 
     onResource(handler: ResourceHandler): void;
 
@@ -124,9 +107,7 @@ export function createPulumiApp<TResources extends Record<string, unknown>>(
         run: { params: {} },
 
         async runProgram(params) {
-            if (params) {
-                app.run.params = params;
-            }
+            app.run.params = params;
 
             Object.assign(app.resources, await app.program(app));
 

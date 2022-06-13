@@ -1,13 +1,13 @@
 import * as aws from "@pulumi/aws";
 
-import { defineAppModule } from "@webiny/pulumi-app";
+import { createAppModule } from "@webiny/pulumi-app";
 import { StorageOutput } from "./StorageOutput";
 
 export interface VpcParams {
     enabled: boolean | undefined;
 }
 
-export const VpcConfig = defineAppModule({
+export const VpcConfig = createAppModule({
     name: "VpcConfig",
     config(app, params: VpcParams) {
         return app.getModule(StorageOutput).apply(storage => {

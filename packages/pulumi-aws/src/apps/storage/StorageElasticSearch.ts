@@ -1,7 +1,7 @@
 import path from "path";
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
-import { defineAppModule, PulumiApp } from "@webiny/pulumi-app";
+import { createAppModule, PulumiApp } from "@webiny/pulumi-app";
 
 import { getAwsAccountId } from "../awsUtils";
 import { StorageVpc } from "./StorageVpc";
@@ -10,7 +10,7 @@ export interface ElasticSearchParams {
     protect: boolean;
 }
 
-export const ElasticSearch = defineAppModule({
+export const ElasticSearch = createAppModule({
     name: "ElasticSearch",
     config(app, params: ElasticSearchParams) {
         const domainName = "webiny-js";

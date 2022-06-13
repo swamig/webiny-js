@@ -1,9 +1,9 @@
-import { defineAppModule, PulumiAppModule } from "@webiny/pulumi-app";
+import { createAppModule, PulumiAppModule } from "@webiny/pulumi-app";
 import { getStackOutput } from "@webiny/cli-plugin-deploy-pulumi/utils";
 
 export type StorageOutput = PulumiAppModule<typeof StorageOutput>;
 
-export const StorageOutput = defineAppModule({
+export const StorageOutput = createAppModule({
     name: "StorageOutput",
     config(app) {
         return app.addHandler(async () => {

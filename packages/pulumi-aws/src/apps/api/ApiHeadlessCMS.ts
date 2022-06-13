@@ -2,7 +2,7 @@ import path from "path";
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 
-import { defineAppModule, PulumiApp, PulumiAppModule } from "@webiny/pulumi-app";
+import { createAppModule, PulumiApp, PulumiAppModule } from "@webiny/pulumi-app";
 
 import { createLambdaRole, getCommonLambdaEnvVariables } from "../lambdaUtils";
 import { StorageOutput, VpcConfig } from "../common";
@@ -13,7 +13,7 @@ interface HeadlessCMSParams {
 
 export type ApiHeadlessCMS = PulumiAppModule<typeof ApiHeadlessCMS>;
 
-export const ApiHeadlessCMS = defineAppModule({
+export const ApiHeadlessCMS = createAppModule({
     name: "ApiHeadlessCMS",
     config(app: PulumiApp, params: HeadlessCMSParams) {
         const policy = createHeadlessCmsLambdaPolicy(app);

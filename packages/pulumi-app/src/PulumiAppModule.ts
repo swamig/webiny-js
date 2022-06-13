@@ -24,7 +24,7 @@ export class PulumiAppModuleDefinition<TModule, TConfig> {
     }
 }
 
-export function defineAppModule<TModule, TConfig = void>(
+export function createAppModule<TModule, TConfig = void>(
     params: PulumiAppModuleParams<TModule, TConfig>
 ) {
     return new PulumiAppModuleDefinition(params);

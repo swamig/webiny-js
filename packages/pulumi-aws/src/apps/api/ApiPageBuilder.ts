@@ -4,7 +4,7 @@ import * as aws from "@pulumi/aws";
 
 //@ts-ignore
 import { createInstallationZip } from "@webiny/api-page-builder/installation";
-import { defineAppModule, PulumiApp, PulumiAppModule } from "@webiny/pulumi-app";
+import { createAppModule, PulumiApp, PulumiAppModule } from "@webiny/pulumi-app";
 import { StorageOutput, VpcConfig } from "../common";
 import { createLambdaRole, getCommonLambdaEnvVariables } from "../lambdaUtils";
 import { getAwsAccountId, getAwsRegion } from "../awsUtils";
@@ -15,7 +15,7 @@ interface PageBuilderParams {
 
 export type ApiPageBuilder = PulumiAppModule<typeof ApiPageBuilder>;
 
-export const ApiPageBuilder = defineAppModule({
+export const ApiPageBuilder = createAppModule({
     name: "ApiPageBuilder",
     config(app: PulumiApp, params: PageBuilderParams) {
         const storage = app.getModule(StorageOutput);

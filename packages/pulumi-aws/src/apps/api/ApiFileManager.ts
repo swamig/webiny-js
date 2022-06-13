@@ -4,14 +4,14 @@ import * as aws from "@pulumi/aws";
 
 // @ts-ignore
 import { getLayerArn } from "@webiny/aws-layers";
-import { defineAppModule, PulumiApp, PulumiAppModule } from "@webiny/pulumi-app";
+import { createAppModule, PulumiApp, PulumiAppModule } from "@webiny/pulumi-app";
 
 import { createLambdaRole, getCommonLambdaEnvVariables } from "../lambdaUtils";
 import { StorageOutput, VpcConfig } from "../common";
 
 export type ApiFileManager = PulumiAppModule<typeof ApiFileManager>;
 
-export const ApiFileManager = defineAppModule({
+export const ApiFileManager = createAppModule({
     name: "ApiFileManager",
     config(app: PulumiApp) {
         const storage = app.getModule(StorageOutput);

@@ -15,46 +15,28 @@ export type ResourceArgs<T extends ResourceConstructor> = T extends ResourceCons
     ? Exclude<TArgs, undefined>
     : never;
 
-export interface ResourceOverride<TCtor extends ResourceConstructor> {
-    (args: ResourceArgs<TCtor>): void;
-}
-
-export interface PulumiAppResourceParams<T extends ResourceConstructor> {
+export interface CreateResourceParams<TCtor extends ResourceConstructor> {
     name: string;
-    config: ResourceArgs<T>;
+    config: ResourceArgs<TCtor>;
     opts?: pulumi.CustomResourceOptions;
-    output: pulumi.Output<pulumi.Unwrap<ResourceType<T>>>;
 }
 
-export class PulumiAppResource<T extends ResourceConstructor> {
-    public readonly output: pulumi.Output<pulumi.Unwrap<ResourceType<T>>>;
-    public config: ResourceArgs<T>;
-    public opts: pulumi.CustomResourceOptions;
+export interface ResourceConfigModifier<T> {
+    (value: pulumi.Unwrap<T>): T | void;
+}
 
-    public readonly create: () => void;
+export interface ResourceConfigSetter<T> {
+    (value: T): void;
+    (fcn: ResourceConfigModifier<T>): void;
+}
 
-    constructor(ctor: T, params: PulumiAppResourceParams<T>) {
-        this.config = params.config;
-        this.opts = params.opts ?? {};
+export type ResourceConfigProxy<T extends object> = {
+    readonly [K in keyof T]-?: ResourceConfigSetter<T[K]>;
+};
 
-        let resolve: (res: ResourceType<T>) => void;
-        let created = false;
-
-        this.create = () => {
-            if (created) {
-                // prevent double initialization
-                return;
-            }
-
-            const resource = new ctor(params.name, this.config, this.opts);
-            resolve(resource);
-            created = false;
-        };
-
-        const promise = new Promise<ResourceType<T>>(r => {
-            resolve = r;
-        });
-
-        this.output = pulumi.output(promise);
-    }
+export interface PulumiAppResource<T extends ResourceConstructor> {
+    name: string;
+    readonly config: ResourceConfigProxy<ResourceArgs<T>>;
+    readonly opts: pulumi.CustomResourceOptions;
+    readonly output: pulumi.Output<pulumi.Unwrap<ResourceType<T>>>;
 }

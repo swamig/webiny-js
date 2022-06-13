@@ -1,9 +1,9 @@
 import * as aws from "@pulumi/aws";
-import { defineAppModule, PulumiAppModule } from "@webiny/pulumi-app";
+import { createAppModule, PulumiAppModule } from "@webiny/pulumi-app";
 
 export type StorageVpc = PulumiAppModule<typeof StorageVpc>;
 
-export const StorageVpc = defineAppModule({
+export const StorageVpc = createAppModule({
     name: "StorageVpc",
     config(app) {
         // Create VPC.

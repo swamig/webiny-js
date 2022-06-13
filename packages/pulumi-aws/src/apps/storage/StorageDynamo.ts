@@ -1,9 +1,9 @@
 import * as aws from "@pulumi/aws";
-import { defineAppModule, PulumiApp, PulumiAppModule } from "@webiny/pulumi-app";
+import { createAppModule, PulumiApp, PulumiAppModule } from "@webiny/pulumi-app";
 
 export type StorageDynamo = PulumiAppModule<typeof StorageDynamo>;
 
-export const StorageDynamo = defineAppModule({
+export const StorageDynamo = createAppModule({
     name: "DynamoDb",
     config(app: PulumiApp, params: { protect: boolean }) {
         return app.addResource(aws.dynamodb.Table, {

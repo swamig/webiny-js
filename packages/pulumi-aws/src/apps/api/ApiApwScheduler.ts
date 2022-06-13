@@ -1,7 +1,7 @@
 import path from "path";
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
-import { defineAppModule, PulumiApp, PulumiAppModule } from "@webiny/pulumi-app";
+import { createAppModule, PulumiApp, PulumiAppModule } from "@webiny/pulumi-app";
 import { StorageOutput } from "../common";
 import { getCommonLambdaEnvVariables } from "../lambdaUtils";
 
@@ -17,7 +17,7 @@ const EVENT_RULE_TARGET = `${LAMBDA_NAME_PREFIX}-event-rule-target`;
 
 export type ApiApwScheduler = PulumiAppModule<typeof ApiApwScheduler>;
 
-export const ApiApwScheduler = defineAppModule({
+export const ApiApwScheduler = createAppModule({
     name: "ApiApwScheduler",
     config(app: PulumiApp, params: ScheduleActionParams) {
         const executeAction = createExecuteActionLambda(app, params);
