@@ -30,14 +30,7 @@ module.exports = async (inputs, context) => {
 
     await login(projectApplication);
 
-    const pulumi = await getPulumi({
-        execa: {
-            cwd:
-                projectApplication.type === "v5-workspaces"
-                    ? projectApplication.paths.workspace
-                    : projectApplication.paths.absolute
-        }
-    });
+    const pulumi = await getPulumi({ projectApplication });
 
     if (env) {
         debug &&

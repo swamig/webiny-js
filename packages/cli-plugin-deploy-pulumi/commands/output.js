@@ -27,14 +27,7 @@ module.exports = async (inputs, context) => {
     // Will also install Pulumi, if not already installed.
     await login(projectApplication);
 
-    const pulumi = await getPulumi({
-        execa: {
-            cwd:
-                projectApplication.type === "v5-workspaces"
-                    ? projectApplication.paths.workspace
-                    : projectApplication.paths.absolute
-        }
-    });
+    const pulumi = await getPulumi({ projectApplication });
 
     const stackName = variant ? `${env}.${variant}` : env;
 

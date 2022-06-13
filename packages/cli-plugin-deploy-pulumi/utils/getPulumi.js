@@ -5,10 +5,10 @@ const merge = require("lodash/merge");
 const { getProject } = require("@webiny/cli/utils");
 const path = require("path");
 
-module.exports = async (args = {}, options = {}) => {
+module.exports = async ({ projectApplication, pulumi, install }) => {
     const spinner = new ora();
 
-    const pulumi = new Pulumi(
+    const instance = new Pulumi(
         merge(
             {
                 pulumiFolder: path.join(getProject().root, ".webiny"),
@@ -27,14 +27,22 @@ module.exports = async (args = {}, options = {}) => {
                     });
                 }
             },
-            args
+            projectApplication && {
+                execa: {
+                    cwd:
+                        projectApplication.type === "v5-workspaces"
+                            ? projectApplication.paths.workspace
+                            : projectApplication.paths.absolute
+                }
+            },
+            pulumi
         )
     );
 
     // Run install method, just in case Pulumi wasn't installed yet.
-    if (options.install !== false) {
-        await pulumi.install();
+    if (install !== false) {
+        await instance.install();
     }
 
-    return pulumi;
+    return instance;
 };

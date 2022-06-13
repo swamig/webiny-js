@@ -25,4 +25,10 @@ export function getStackOutput(options: {
     cwd?: string;
 }): StackOutput;
 
-export function getPulumi(options?: { install?: boolean }): Pulumi;
+interface GetPulumiParams {
+    projectApplication?: Record<string, unknown>;
+    pulumi?: Options
+    install?: boolean;
+}
+
+export function getPulumi(params: GetPulumiParams): Pulumi;

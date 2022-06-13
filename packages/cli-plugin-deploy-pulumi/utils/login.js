@@ -12,7 +12,7 @@ const SELF_MANAGED_BACKEND = ["s3://", "azblob://", "gs://"];
 
 module.exports = async projectApplication => {
     // Do the login with Pulumi CLI.
-    const pulumi = await getPulumi();
+    const pulumi = await getPulumi({ projectApplication });
 
     const projectAppRelativePath = projectApplication.paths.relative;
 
