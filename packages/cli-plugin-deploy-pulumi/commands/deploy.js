@@ -3,7 +3,6 @@ const { green } = require("chalk");
 const { getProjectApplication } = require("@webiny/cli/utils");
 const buildPackages = require("./deploy/buildPackages");
 const {
-    loadEnvVariables,
     getPulumi,
     processHooks,
     login,
@@ -43,8 +42,6 @@ module.exports = async (inputs, context) => {
     if (projectApplication.type === "v5-workspaces") {
         await createProjectApplicationWorkspace(projectApplication, { env });
     }
-
-    await loadEnvVariables(inputs, context);
 
     const hookArgs = { context, env, inputs, projectApplication };
 

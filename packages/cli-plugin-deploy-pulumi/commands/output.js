@@ -4,13 +4,11 @@ const { getProjectApplication } = require("@webiny/cli/utils");
 const {
     login,
     getPulumi,
-    loadEnvVariables,
     createProjectApplicationWorkspace
 } = require("../utils");
 
 module.exports = async (inputs, context) => {
-    const { env, folder, json, variant } = inputs;
-    await loadEnvVariables(inputs, context); // delete this? todo
+    const { env, folder, json } = inputs;
 
     const cwd = process.cwd();
 

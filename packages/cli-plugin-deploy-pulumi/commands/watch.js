@@ -16,7 +16,6 @@ const watchPackages = require("./watch/watchPackages");
 const {
     login,
     getPulumi,
-    loadEnvVariables,
     getRandomColorForString,
     createProjectApplicationWorkspace
 } = require("../utils");
@@ -49,8 +48,6 @@ module.exports = async (inputs, context) => {
         if (projectApplication.type === "v5-workspaces") {
             await createProjectApplicationWorkspace(projectApplication, { env: inputs.env });
         }
-
-        await loadEnvVariables(inputs, context);
     }
 
     inputs.build = inputs.build !== false;

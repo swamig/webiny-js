@@ -2,7 +2,6 @@ const path = require("path");
 const { red, green } = require("chalk");
 const { getProjectApplication } = require("@webiny/cli/utils");
 const {
-    loadEnvVariables,
     getPulumi,
     processHooks,
     login,
@@ -16,8 +15,6 @@ module.exports = async (inputs, context) => {
     const getDuration = () => {
         return (new Date() - start) / 1000;
     };
-
-    await loadEnvVariables(inputs, context);
 
     // Get project application metadata.
     const projectApplication = getProjectApplication({

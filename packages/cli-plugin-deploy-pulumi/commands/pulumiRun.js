@@ -5,7 +5,6 @@ const { getStackName } = require("@webiny/pulumi-sdk");
 const {
     login,
     getPulumi,
-    loadEnvVariables,
     createProjectApplicationWorkspace
 } = require("../utils");
 
@@ -15,8 +14,6 @@ module.exports = async (inputs, context) => {
 
     const stackName = getStackName({ env, variant });
     const cwd = process.cwd();
-
-    await loadEnvVariables(inputs, context);
 
     // Get project application metadata.
     const projectApplication = getProjectApplication({
