@@ -1,6 +1,6 @@
 import * as aws from "@pulumi/aws";
 import { PulumiInputValue } from "../types";
-import { PulumiApp } from "@webiny/pulumi-sdk";
+import { PulumiApp } from "@webiny/pulumi-app";
 
 type OriginConfig = PulumiInputValue<
     PulumiInputValue<aws.cloudfront.DistributionArgs["origins"]>[number]

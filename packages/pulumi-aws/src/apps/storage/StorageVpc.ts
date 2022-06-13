@@ -1,5 +1,5 @@
 import * as aws from "@pulumi/aws";
-import { defineAppModule, PulumiAppModule } from "@webiny/pulumi-sdk";
+import { defineAppModule, PulumiAppModule } from "@webiny/pulumi-app";
 
 export type StorageVpc = PulumiAppModule<typeof StorageVpc>;
 

@@ -1,4 +1,4 @@
-import { createPulumiApp } from "@webiny/pulumi-sdk";
+import { createPulumiApp } from "@webiny/pulumi-app";
 import { PulumiAppInput, getPulumiAppInput } from "../utils";
 import { StorageCognito } from "./StorageCognito";
 import { StorageDynamo } from "./StorageDynamo";

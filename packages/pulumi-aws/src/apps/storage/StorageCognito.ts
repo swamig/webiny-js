@@ -1,5 +1,5 @@
 import * as aws from "@pulumi/aws";
-import { defineAppModule, PulumiApp, PulumiAppModule } from "@webiny/pulumi-sdk";
+import { defineAppModule, PulumiApp, PulumiAppModule } from "@webiny/pulumi-app";
 
 export interface StorageCognitoParams {
     protect: boolean;

@@ -1,5 +1,5 @@
 import * as aws from "@pulumi/aws";
-import { defineAppModule, PulumiApp } from "@webiny/pulumi-sdk";
+import { defineAppModule, PulumiApp } from "@webiny/pulumi-app";
 
 export const StorageEventBus = defineAppModule({
     name: "StorageEventBus",

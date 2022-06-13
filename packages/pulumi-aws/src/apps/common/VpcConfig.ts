@@ -1,6 +1,6 @@
 import * as aws from "@pulumi/aws";
 
-import { defineAppModule } from "@webiny/pulumi-sdk";
+import { defineAppModule } from "@webiny/pulumi-app";
 import { StorageOutput } from "./StorageOutput";
 
 export interface VpcParams {

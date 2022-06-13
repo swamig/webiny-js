@@ -51,7 +51,8 @@
         "@webiny/api-admin-users-cognito",
         "@webiny/api-admin-users-cognito-so-ddb",
         "@webiny/api-security-cognito",
-        "@webiny/api-security-okta"
+        "@webiny/api-security-okta",
+        "@webiny/pulumi-aws"
       ],
       "src": [
         "@webiny/cli-plugin-deploy-pulumi",

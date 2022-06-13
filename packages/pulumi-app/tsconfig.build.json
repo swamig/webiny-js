@@ -1,10 +1,7 @@
 {
   "extends": "../../tsconfig.build.json",
   "include": ["src"],
-  "references": [
-    { "path": "../pulumi-app/tsconfig.build.json" },
-    { "path": "../api-page-builder/tsconfig.build.json" }
-  ],
+  "references": [],
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",

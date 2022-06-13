@@ -2,7 +2,7 @@ import * as path from "path";
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 
-import { PulumiApp } from "@webiny/pulumi-sdk";
+import { PulumiApp } from "@webiny/pulumi-app";
 // @ts-ignore
 import { getLayerArn } from "@webiny/aws-layers";
 

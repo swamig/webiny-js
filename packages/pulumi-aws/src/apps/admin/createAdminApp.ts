@@ -1,6 +1,6 @@
 import * as aws from "@pulumi/aws";
 
-import { createPulumiApp, PulumiApp } from "@webiny/pulumi-sdk";
+import { createPulumiApp, PulumiApp } from "@webiny/pulumi-app";
 import { createPublicAppBucket } from "../createAppBucket";
 import { applyCustomDomain, CustomDomainParams } from "../customDomain";
 
@@ -75,7 +75,6 @@ const createApiPulumiApp = (projectAppConfig: CreateAdminAppConfig) => {
             if (domain) {
                 applyCustomDomain(cloudfront, domain);
             }
-
 
             app.addOutputs({
                 appStorage: bucket.bucket.output.id,

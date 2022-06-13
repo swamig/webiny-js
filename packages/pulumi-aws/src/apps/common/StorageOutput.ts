@@ -1,4 +1,4 @@
-import { defineAppModule, PulumiAppModule } from "@webiny/pulumi-sdk";
+import { defineAppModule, PulumiAppModule } from "@webiny/pulumi-app";
 import { getStackOutput } from "@webiny/cli-plugin-deploy-pulumi/utils";
 
 export type StorageOutput = PulumiAppModule<typeof StorageOutput>;
@@ -24,7 +24,7 @@ export const StorageOutput = defineAppModule({
                 primaryDynamodbTableRangeKey: output["primaryDynamodbTableRangeKey"] as string,
                 cognitoUserPoolId: output["cognitoUserPoolId"] as string,
                 cognitoUserPoolArn: output["cognitoUserPoolArn"] as string,
-                cognitoUserPoolPasswordPolicy: output["cognitoUserPoolPasswordPolicy"],
+                cognitoUserPoolPasswordPolicy: output["cognitoUserPoolPasswordPolicy"] as string,
                 cognitoAppClientId: output["cognitoAppClientId"] as string,
                 eventBusArn: output["eventBusArn"] as string,
                 // These outputs are optional, since VPC is not always enabled.

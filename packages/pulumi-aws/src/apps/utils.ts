@@ -1,4 +1,4 @@
-import { PulumiApp } from "@webiny/pulumi-sdk";
+import { PulumiApp } from "@webiny/pulumi-app";
 
 type CallbackPulumiAppInput<T> = (app: PulumiApp) => T;
 

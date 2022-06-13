@@ -1,4 +1,4 @@
-import { createPulumiApp, PulumiApp, PulumiAppInput } from "@webiny/pulumi-sdk";
+import { createPulumiApp, PulumiApp, PulumiAppInput } from "@webiny/pulumi-app";
 import {
     ApiGateway,
     ApiApwScheduler,

@@ -2,7 +2,7 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 
-import { ApplicationContext, loadGatewayConfig, PulumiApp } from "@webiny/pulumi-sdk";
+import { ApplicationContext, loadGatewayConfig, PulumiApp } from "@webiny/pulumi-app";
 import { applyCustomDomain, CustomDomainParams } from "../customDomain";
 
 export interface GatewayApiConfig {
