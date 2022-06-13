@@ -33,26 +33,6 @@ export interface StorageAppLegacyConfig {
     useEmailAsUsername?: boolean;
 }
 
-// export interface CreateProjectAppParams {
-//     id: string;
-//     name: string;
-//     description: string;
-//     cli?: Record<string, any>;
-//     pulumi: PulumiApp;
-// }
-//
-// export interface ProjectApp {
-//     id: string;
-//     name: string;
-//     description: string;
-//     cli?: Record<string, any>;
-//     pulumi: PulumiApp;
-// }
-//
-// function createProjectApp(params: CreateProjectAppParams): ProjectApp {
-//     return { ...params };
-// }
-
 export function createStorageApp(projectAppConfig?: CreateStorageAppConfig) {
     return {
         id: "storage",
@@ -63,8 +43,6 @@ export function createStorageApp(projectAppConfig?: CreateStorageAppConfig) {
             path: "apps/storage",
             config: projectAppConfig,
             program: app => {
-                // const protect = getAppInput(app, app.run.params.protect) ?? app.ctx.env === "prod";
-                // const legacyConfig = getAppInput(app, config.legacy) ?? {};
                 const protect = app.run.params.protect || false;
                 const legacyConfig = app.run.params.legacyConfig || {};
 
