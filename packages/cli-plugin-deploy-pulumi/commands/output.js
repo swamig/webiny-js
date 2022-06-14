@@ -1,11 +1,7 @@
 const path = require("path");
 const { red } = require("chalk");
 const { getProjectApplication } = require("@webiny/cli/utils");
-const {
-    login,
-    getPulumi,
-    createProjectApplicationWorkspace
-} = require("../utils");
+const { login, getPulumi, createProjectApplicationWorkspace } = require("../utils");
 
 module.exports = async (inputs, context) => {
     const { env, folder, json } = inputs;
@@ -26,7 +22,6 @@ module.exports = async (inputs, context) => {
     await login(projectApplication);
 
     const pulumi = await getPulumi({ projectApplication });
-
 
     let stackExists = true;
     try {

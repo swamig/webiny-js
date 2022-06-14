@@ -13,7 +13,6 @@ export interface CreateWebsiteAppConfig {
     /** Custom domain configuration */
     domain?(app: PulumiApp): CustomDomainParams | undefined | void;
 
-
     /**
      * Enables or disables VPC for the API.
      * For VPC to work you also have to enable it in the `storage` application.

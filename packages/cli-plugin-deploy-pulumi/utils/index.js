@@ -17,5 +17,5 @@ module.exports = {
     notify,
     login,
     getRandomColorForString,
-    createProjectApplicationWorkspace,
+    createProjectApplicationWorkspace
 };

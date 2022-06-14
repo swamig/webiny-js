@@ -132,7 +132,10 @@ export function createPulumiApp<TResources extends Record<string, unknown>>(
          * @param params Parameters to configure the resource
          * @returns Object giving access to both resource outputs and its config.
          */
-        addResource<T extends PulumiAppResourceConstructor>(resourceConstructor: T, params: CreatePulumiAppResourceParams<T>) {
+        addResource<T extends PulumiAppResourceConstructor>(
+            resourceConstructor: T,
+            params: CreatePulumiAppResourceParams<T>
+        ) {
             const config = params.config ?? ({} as PulumiAppResourceArgs<T>);
             const opts = params.opts ?? {};
 
@@ -250,7 +253,9 @@ function createConfigProxy<T extends object>(obj: T) {
         get(target, p: string) {
             type V = T[keyof T];
             const key = p as keyof T;
-            const setter: PulumiAppResourceConfigSetter<V> = (value: V | PulumiAppResourceConfigModifier<V>) => {
+            const setter: PulumiAppResourceConfigSetter<V> = (
+                value: V | PulumiAppResourceConfigModifier<V>
+            ) => {
                 if (typeof value === "function") {
                     const modifier = value as PulumiAppResourceConfigModifier<V>;
                     const currentValue = target[key];

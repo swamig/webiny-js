@@ -1,12 +1,7 @@
 const path = require("path");
 const { red, green } = require("chalk");
 const { getProjectApplication } = require("@webiny/cli/utils");
-const {
-    getPulumi,
-    processHooks,
-    login,
-    createProjectApplicationWorkspace
-} = require("../utils");
+const { getPulumi, processHooks, login, createProjectApplicationWorkspace } = require("../utils");
 
 module.exports = async (inputs, context) => {
     const { env, folder } = inputs;
