@@ -1,7 +1,5 @@
 import { Pulumi, Options } from "@webiny/pulumi-sdk";
 
-export function crawlDirectory(dir: string, callback: (path: string) => void): void;
-
 export function getStackOutput<TStackOutput = Record<string, unknown>>(
     folder: string,
     env: string,

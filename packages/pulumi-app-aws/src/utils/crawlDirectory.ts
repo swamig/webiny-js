@@ -1,6 +1,6 @@
-const fs = require("fs");
+import * as fs from "fs";
 
-const crawlDirectory = (dir, callback) => {
+export const crawlDirectory = (dir: string, callback: (filePath: string) => void) => {
     if (!fs.existsSync(dir)) {
         return;
     }
@@ -17,5 +17,3 @@ const crawlDirectory = (dir, callback) => {
         }
     }
 };
-
-module.exports = crawlDirectory;

@@ -13068,9 +13068,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@webiny/pulumi-app-aws@^5.28.0, @webiny/pulumi-app-aws@workspace:packages/pulumi-aws":
+"@webiny/pulumi-app-aws@^5.28.0, @webiny/pulumi-app-aws@workspace:packages/pulumi-app-aws":
   version: 0.0.0-use.local
-  resolution: "@webiny/pulumi-app-aws@workspace:packages/pulumi-aws"
+  resolution: "@webiny/pulumi-app-aws@workspace:packages/pulumi-app-aws"
   dependencies:
     "@babel/cli": ^7.16.0
     "@babel/core": ^7.16.0
