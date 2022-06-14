@@ -49,7 +49,7 @@ export interface PulumiApp<TResources = Record<string, unknown>> {
         run: RunConfig;
     };
 
-    runProgram(params: Record<string, any>): Record<string, any>;
+    run(params: Record<string, any>): Record<string, any>;
 
     onResource(handler: ResourceHandler): void;
 
@@ -113,7 +113,7 @@ export function createPulumiApp<TResources extends Record<string, unknown>>(
             run: {}
         },
 
-        async runProgram(config) {
+        async run(config) {
             app.config.run = config;
 
             Object.assign(app.resources, await app.program(app));
