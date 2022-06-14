@@ -10,9 +10,9 @@ export type PulumiAppResourceType<T extends PulumiAppResourceConstructor> =
 export type PulumiAppResourceArgs<T extends PulumiAppResourceConstructor> =
     T extends PulumiAppResourceConstructor<any, infer TArgs> ? Exclude<TArgs, undefined> : never;
 
-export interface CreatePulumiAppResourceParams<TCtor extends PulumiAppResourceConstructor> {
+export interface CreatePulumiAppResourceParams<TConstructor extends PulumiAppResourceConstructor> {
     name: string;
-    config: PulumiAppResourceArgs<TCtor>;
+    config: PulumiAppResourceArgs<TConstructor>;
     opts?: pulumi.CustomResourceOptions;
 }
 

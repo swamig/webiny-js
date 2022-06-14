@@ -49,7 +49,7 @@ export interface PulumiApp<TResources = Record<string, unknown>> {
     onResource(handler: ResourceHandler): void;
 
     addResource<T extends PulumiAppResourceConstructor>(
-        ctor: T,
+        resourceConstructor: T,
         params: CreatePulumiAppResourceParams<T>
     ): PulumiAppResource<T>;
 
@@ -128,18 +128,18 @@ export function createPulumiApp<TResources extends Record<string, unknown>>(
          * Adds a resource to pulumi app.
          * It's not running the script immediately, but enqueues the call.
          * This way we are still able to modify the config of the resource.
-         * @param ctor Resource to be added, ie aws.s3.Bucket
+         * @param resourceConstructor Resource to be added, ie aws.s3.Bucket
          * @param params Parameters to configure the resource
          * @returns Object giving access to both resource outputs and its config.
          */
-        addResource<T extends PulumiAppResourceConstructor>(ctor: T, params: CreatePulumiAppResourceParams<T>) {
+        addResource<T extends PulumiAppResourceConstructor>(resourceConstructor: T, params: CreatePulumiAppResourceParams<T>) {
             const config = params.config ?? ({} as PulumiAppResourceArgs<T>);
             const opts = params.opts ?? {};
 
             const promise = new Promise<PulumiAppResourceType<T>>(resolve => {
                 app.handlers.push(() => {
                     app.resourceHandlers.forEach(handler => handler(resourceInstance));
-                    const resourceInstance = new ctor(resource.name, config, opts);
+                    const resourceInstance = new resourceConstructor(resource.name, config, opts);
                     resolve(resourceInstance);
                 });
             });
