@@ -51,15 +51,15 @@ export function createStoragePulumiApp(projectAppConfig: CreateStorageAppConfig 
         path: "apps/storage",
         config: projectAppConfig,
         program: app => {
-            const protect = app.run.params.protect || false;
-            const legacyConfig = app.run.params.legacyConfig || {};
+            const protect = app.config.run.protect || false;
+            const legacyConfig = app.config.run.legacyConfig || {};
 
             // Setup DynamoDB table
             const dynamoDbTable = app.addModule(StorageDynamo, { protect });
 
             // Setup VPC
             // const vpcEnabled = getAppInput(app, config.vpc) ?? app.ctx.env === "prod";
-            const vpcEnabled = projectAppConfig?.vpc || app.run.params.env === "prod";
+            const vpcEnabled = projectAppConfig?.vpc || app.config.run.env === "prod";
             const vpc = vpcEnabled ? app.addModule(StorageVpc) : null;
 
             // Setup Cognito
