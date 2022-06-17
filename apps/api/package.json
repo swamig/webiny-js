@@ -6,6 +6,7 @@
     "watch": "yarn webiny run watch"
   },
   "dependencies": {
+    "@aws-sdk/client-cloudwatch-events": "^3.112.0",
     "@webiny/api-admin-users-cognito": "^5.28.0",
     "@webiny/api-admin-users-cognito-so-ddb": "^5.28.0",
     "@webiny/api-apw": "^5.28.0",
@@ -45,7 +46,10 @@
     "@webiny/project-utils": "^5.28.0"
   },
   "devDependencies": {
-    "@webiny/cli-plugin-deploy-pulumi": "^5.28.0"
+    "@webiny/cli-plugin-deploy-pulumi": "^5.28.0",
+    "@webiny/pulumi-aws": "^5.28.0",
+    "fast-glob": "^3.2.7",
+    "normalize-path": "^3.0.0"
   },
   "adio": {
     "ignore": {
