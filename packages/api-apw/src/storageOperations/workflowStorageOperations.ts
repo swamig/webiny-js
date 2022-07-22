@@ -6,6 +6,7 @@ import {
     getFieldValues
 } from "~/storageOperations/index";
 import WebinyError from "@webiny/error";
+import { Security } from "@webiny/api-security/types";
 
 type ReviewersRefInput = CreateApwWorkflowParams<{ modelId: string; id: string }>;
 
@@ -25,11 +26,19 @@ const formatReviewersForRefInput = (
     };
 };
 
+interface Params {
+    cms: CreateApwStorageOperationsParams["cms"];
+    security: Security;
+}
+
 export const createWorkflowStorageOperations = ({
-    cms
-}: Pick<CreateApwStorageOperationsParams, "cms">): ApwWorkflowStorageOperations => {
+    cms,
+    security
+}: Params): ApwWorkflowStorageOperations => {
     const getWorkflowModel = async () => {
+        security.disableAuthorization();
         const model = await cms.getModel("apwWorkflowModelDefinition");
+        security.enableAuthorization();
         if (!model) {
             throw new WebinyError(
                 "Could not find `apwWorkflowModelDefinition` model.",

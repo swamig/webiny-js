@@ -53,6 +53,8 @@ export const validateModelAccess = async (
             Array.isArray(groups[locale]) === false ||
             groups[locale].includes(model.group.id) === false
         ) {
+            console.log(`User does not have access to group "${model.group.id}".`);
+            console.log(groups);
             return false;
         }
     }
@@ -62,6 +64,8 @@ export const validateModelAccess = async (
             Array.isArray(models[locale]) === false ||
             models[locale].includes(model.modelId) === false
         ) {
+            console.log(`User does not have access to model "${model.modelId}".`);
+            console.log(models);
             return false;
         }
     }

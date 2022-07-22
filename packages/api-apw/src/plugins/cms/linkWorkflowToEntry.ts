@@ -8,6 +8,7 @@ import {
     updateEntryMeta
 } from "~/plugins/cms/utils";
 import { HeadlessCms } from "@webiny/api-headless-cms/types";
+import { Security } from "@webiny/api-security/types";
 
 interface Value {
     id: string;
@@ -17,9 +18,10 @@ interface Value {
 interface LinkWorkflowToEntryParams {
     apw: AdvancedPublishingWorkflow;
     cms: HeadlessCms;
+    security: Security;
 }
 export const linkWorkflowToEntry = (params: LinkWorkflowToEntryParams) => {
-    const { apw, cms } = params;
+    const { apw, cms, security } = params;
 
     cms.onBeforeEntryCreate.subscribe(async ({ entry, model }) => {
         if (isAwpModel(model)) {
@@ -103,6 +105,7 @@ export const linkWorkflowToEntry = (params: LinkWorkflowToEntryParams) => {
             return;
         }
 
+        security.disableAuthorization();
         const models = await cms.listModels();
 
         const values: Value[] | undefined = scope.data?.entries;
@@ -129,5 +132,6 @@ export const linkWorkflowToEntry = (params: LinkWorkflowToEntryParams) => {
                 }
             });
         }
+        security.enableAuthorization();
     });
 };

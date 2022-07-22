@@ -35,7 +35,7 @@ export const createStorageOperations = ({
 
     return {
         ...createReviewerStorageOperations({ cms }),
-        ...createWorkflowStorageOperations({ cms }),
+        ...createWorkflowStorageOperations({ cms, security: context.security }),
         ...createContentReviewStorageOperations({ cms }),
         ...createChangeRequestStorageOperations({ cms, getCmsContext }),
         ...createCommentStorageOperations({
