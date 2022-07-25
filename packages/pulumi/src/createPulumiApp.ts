@@ -19,6 +19,7 @@ import {
     PulumiAppParamCallback,
     ResourceHandler
 } from "~/types";
+import { PulumiAppRemoteResource } from "~/PulumiAppRemoteResource";
 
 export function createPulumiApp<TResources extends Record<string, unknown>>(
     params: CreatePulumiAppParams<TResources>
@@ -94,9 +95,7 @@ export function createPulumiApp<TResources extends Record<string, unknown>>(
 
             const promise = new Promise<PulumiAppResourceType<T>>(resolve => {
                 app.handlers.push(() => {
-                    app.resourceHandlers.forEach(handler => handler(resourceInstance));
-                    const resourceInstance = new resourceConstructor(resource.name, config, opts);
-                    resolve(resourceInstance);
+                    resolve(new resourceConstructor(resource.name, config, opts));
                 });
             });
 
@@ -104,6 +103,19 @@ export function createPulumiApp<TResources extends Record<string, unknown>>(
                 name: params.name,
                 config: createPulumiAppResourceConfigProxy(config),
                 opts,
+                output: pulumi.output(promise)
+            };
+
+            app.resourceHandlers.forEach(handler => handler(resource));
+
+            return resource;
+        },
+
+        addRemoteResource<T>(name: string, getter: () => Promise<T>) {
+            const promise = getter();
+
+            const resource: PulumiAppRemoteResource<T> = {
+                name,
                 output: pulumi.output(promise)
             };
 

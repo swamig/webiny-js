@@ -6,6 +6,8 @@
     "watch": "yarn webiny run watch"
   },
   "dependencies": {
+    "@webiny/api-apw": "latest",
+    "@webiny/api-apw-scheduler-so-ddb": "latest",
     "@webiny/api-headless-cms": "latest",
     "@webiny/api-headless-cms-ddb": "latest",
     "@webiny/api-i18n": "latest",
@@ -20,7 +22,6 @@
     "@webiny/cli": "latest",
     "@webiny/db-dynamodb": "latest",
     "@webiny/handler-aws": "latest",
-    "@webiny/handler-args": "latest",
     "@webiny/handler-client": "latest",
     "@webiny/handler-db": "latest",
     "@webiny/handler-http": "latest",

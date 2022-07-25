@@ -23,16 +23,17 @@ import logsPlugins from "@webiny/handler-logs";
 import fileManagerS3 from "@webiny/api-file-manager-s3";
 import { createFormBuilder } from "@webiny/api-form-builder";
 import { createFormBuilderStorageOperations } from "@webiny/api-form-builder-so-ddb-es";
-import {
-    createAdminHeadlessCmsContext,
-    createAdminHeadlessCmsGraphQL
-} from "@webiny/api-headless-cms";
+import { createHeadlessCmsGraphQL, createHeadlessCmsContext } from "@webiny/api-headless-cms";
 import { createStorageOperations as createHeadlessCmsStorageOperations } from "@webiny/api-headless-cms-ddb-es";
-import headlessCmsModelFieldToGraphQLPlugins from "@webiny/api-headless-cms/content/plugins/graphqlFields";
 import elasticsearchDataGzipCompression from "@webiny/api-elasticsearch/plugins/GzipCompression";
 import securityPlugins from "./security";
 import tenantManager from "@webiny/api-tenant-manager";
 import { createElasticsearchClient } from "@webiny/api-elasticsearch/client";
+/**
+ * APW
+ */
+import { createApwPageBuilderContext, createApwGraphQL } from "@webiny/api-apw";
+import { createStorageOperations as createApwSaStorageOperations } from "@webiny/api-apw-scheduler-so-ddb";
 
 // Imports plugins created via scaffolding utilities.
 import scaffoldsPlugins from "./plugins/scaffolds";
@@ -88,17 +89,20 @@ export const handler = createHandler({
                 elasticsearch: elasticsearchClient
             })
         }),
-        createAdminHeadlessCmsContext({
+        createHeadlessCmsContext({
             storageOperations: createHeadlessCmsStorageOperations({
                 documentClient,
                 elasticsearch: elasticsearchClient,
-                modelFieldToGraphQLPlugins: headlessCmsModelFieldToGraphQLPlugins(),
                 plugins: [elasticsearchDataGzipCompression()]
             })
         }),
-        createAdminHeadlessCmsGraphQL(),
-        scaffoldsPlugins(),
-        elasticsearchDataGzipCompression()
+        createHeadlessCmsGraphQL(),
+        elasticsearchDataGzipCompression(),
+        createApwGraphQL(),
+        createApwPageBuilderContext({
+            storageOperations: createApwSaStorageOperations({ documentClient })
+        }),
+        scaffoldsPlugins()
     ],
     http: { debug }
 });
