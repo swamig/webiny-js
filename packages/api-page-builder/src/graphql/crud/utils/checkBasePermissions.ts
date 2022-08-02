@@ -12,10 +12,13 @@ export default async <TPermission extends PbSecurityPermission = PbSecurityPermi
     check: Check
 ): Promise<TPermission> => {
     await context.i18n.checkI18NContentPermission();
+
     const pbPagePermission = await context.security.getPermission<TPermission>(name);
     if (!pbPagePermission) {
         throw new NotAuthorizedError();
     }
+
+    const hasAdvancedAcl = context.wcp.canUseFeature("advancedAccessControlLayer");
 
     if (check.rwd && !hasRwd(pbPagePermission, check.rwd)) {
         throw new NotAuthorizedError();

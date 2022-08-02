@@ -12,7 +12,7 @@ export default {
             <Action
                 tooltip={"Add Element"}
                 plugin={this.name}
-                icon={<AddIcon />}
+                icon={<AddIcon data-testid={"add-element"}/>}
                 closeOtherInGroup={true}
             />
         );

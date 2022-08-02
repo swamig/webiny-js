@@ -46,17 +46,26 @@ export interface HorizontalPropsType {
     onDrop: DroppableOnDropPropType;
     below?: boolean;
     isVisible?: DroppableIsVisiblePropType;
+
+    /**
+     * For testing purpose
+     */
+    "data-testid"?: string;
 }
 
-const HorizontalComponent: React.FC<HorizontalPropsType> = ({ below, onDrop, isVisible, type }) => {
+const HorizontalComponent: React.FC<HorizontalPropsType> = props => {
+    const { below, onDrop, isVisible, type } = props;
     return (
         <Droppable type={type} isVisible={isVisible} onDrop={onDrop}>
             {({ isOver, drop }) => (
                 <div
+                    className={props["data-testid"]}
+                    data-testid={props["data-testid"]}
                     ref={drop}
                     style={{
                         height: "25px",
                         width: "100%",
+                        border: "1px solid red",
                         position: "absolute",
                         [below ? "bottom" : "top"]: 0,
                         left: 0,

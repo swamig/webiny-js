@@ -51,4 +51,32 @@ context("Categories Module", () => {
             cy.findByText(`Cool Category ${id}`).should("not.exist");
         });
     });
+
+    it.only("should ensure cloning page element works correctly", () => {
+        cy.visit("/page-builder/editor/62ce777d4c8db800094b85d0%230001");
+        cy.findByTestId("add-element").click();
+
+        const dataTransfer = new DataTransfer();
+
+        cy.findByTestId("pb-editor-add-element-button-heading", { force: true }).trigger(
+            "dragstart",
+            {
+                dataTransfer,
+                force: true
+            }
+        );
+
+        cy.wait(500);
+
+        cy.findByTestId(/^drop-zone-below-.*/)
+            .trigger("drop", {
+                dataTransfer,
+                force: true
+            })
+            .trigger("dragend", { dataTransfer, force: true });
+
+        cy.wait(2500);
+
+        cy.findByTestId("pb-editor-page-options-menu").click();
+    });
 });

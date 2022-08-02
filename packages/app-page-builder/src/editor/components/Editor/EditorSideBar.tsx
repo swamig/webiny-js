@@ -66,10 +66,10 @@ const EditorSideBar: React.FC = () => {
     return (
         <Elevation z={1} className={rightSideBar}>
             <Tabs value={sidebarAtomValue.activeTabIndex} updateValue={setActiveTabIndex}>
-                <EditorSidebarTab label={"Style"}>
+                <EditorSidebarTab label={"Style"} data-testid={"xyz"}>
                     <StyleSettingsTabContent element={element} />
                 </EditorSidebarTab>
-                <EditorSidebarTab label={"Element"} disabled={!element}>
+                <EditorSidebarTab label={"Element"} disabled={!element} data-testid={"xyz"}>
                     <ElementSettingsTabContent element={element} />
                 </EditorSidebarTab>
             </Tabs>
