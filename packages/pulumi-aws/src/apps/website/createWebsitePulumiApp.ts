@@ -12,9 +12,14 @@ import { applyTenantRouter } from "~/apps/tenantRouter";
 export type WebsitePulumiApp = ReturnType<typeof createWebsitePulumiApp>;
 
 export interface CreateWebsitePulumiAppParams {
-    /** Custom domain configuration */
+    /**
+     * Custom domain(s) configuration.
+     */
     domains?: PulumiAppParamCallback<CustomDomainParams>;
 
+    /**
+     * Custom preview domain(s) configuration.
+     */
     previewDomains?: PulumiAppParamCallback<CustomDomainParams>;
 
     /**
