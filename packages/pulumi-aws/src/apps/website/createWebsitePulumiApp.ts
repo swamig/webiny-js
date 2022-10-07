@@ -15,6 +15,8 @@ export interface CreateWebsitePulumiAppParams {
     /** Custom domain configuration */
     domains?: PulumiAppParamCallback<CustomDomainParams>;
 
+    previewDomains?: PulumiAppParamCallback<CustomDomainParams>;
+
     /**
      * Enables or disables VPC for the API.
      * For VPC to work you also have to enable it in the `core` application.
@@ -184,6 +186,11 @@ export const createWebsitePulumiApp = (projectAppParams: CreateWebsitePulumiAppP
             const domains = app.getParam(projectAppParams.domains);
             if (domains) {
                 applyCustomDomain(deliveryCloudfront, domains);
+            }
+
+            const previewDomains = app.getParam(projectAppParams.previewDomains);
+            if (previewDomains) {
+                applyCustomDomain(appCloudfront, previewDomains);
             }
 
             if (
